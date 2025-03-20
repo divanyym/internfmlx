@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9qEA8CK2GhU=",
+  "dgSpecHash": "EvbOtvuaWQ8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\Desktop\\webapps\\MvcMovie\\MvcMovie.csproj",
+  "projectFilePath": "D:\\Formulatrix\\internfmlx\\MvcMovie.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
