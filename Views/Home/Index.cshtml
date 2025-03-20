@@ -2,7 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Hai Intern!- Welcome To Formulatrix</h1>
-    <p>Lets learn about our projects <a href="https://formulatrix.com/">click here to get know more</a>.</p>
+<div class="hero-container text-center">
+    <h1 class="display-4 fw-bold text-gradient">Hai Intern! 🚀</h1>
+    <p class="lead text-light">Welcome to <span class="fw-semibold">Formulatrix</span></p>
+    <p class="text-light opacity-75">
+        Discover exciting projects and take your skills to the next level!
+    </p>
+    <a href="https://formulatrix.com/" class="btn btn-lg btn-gradient px-5 py-3 mt-3 shadow-sm">
+        Explore Now 🔗
+    </a>
 </div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #141E30, #243B55);
+        color: white;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .hero-container {
+        padding: 80px 20px 20px; /* Naik ke atas dengan padding-top lebih besar */
+        min-height: 80vh; /* Turunin sedikit biar nggak terlalu tengah */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .text-gradient {
+        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.2rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-gradient:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 198, 255, 0.4);
+    }
+</style>

@@ -1,0 +1,20 @@
+<h2>Add Payroll</h2>
+<form method="post" action="/Payroll/SavePayroll">
+    <div class="form-group">
+        <label>ID</label>
+        <input type="number" name="Id" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Date</label>
+        <input type="date" name="Date" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Tap In</label>
+        <input type="time" name="TapIn" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Tap Out</label>
+        <input type="time" name="TapOut" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

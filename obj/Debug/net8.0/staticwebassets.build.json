@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MCMPKTMZE/qXxoL9ZZSht9SIhrfp6u0DU5KzuyC6zkM=",
+  "Hash": "A1jTTzu/2qPwdmBDrzqFRCNv52ZCdTfLQFbWt8VZESg=",
   "Source": "MvcMovie",
   "BasePath": "_content/MvcMovie",
   "Mode": "Default",
@@ -1250,6 +1250,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\Formulatrix\\internfmlx\\wwwroot\\payroll.csv",
+      "SourceId": "MvcMovie",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Formulatrix\\internfmlx\\wwwroot\\",
+      "BasePath": "_content/MvcMovie",
+      "RelativePath": "payroll.csv",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\payroll.csv"
     }
   ]
 }

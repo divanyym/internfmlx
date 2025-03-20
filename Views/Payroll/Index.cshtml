@@ -1,0 +1,31 @@
+@model List<MvcMovie.Models.Payroll>
+
+<h2>Payroll Data</h2>
+<a href="/Payroll/Add" class="btn btn-primary">Add Payroll</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Date</th>
+            <th>Tap In</th>
+            <th>Tap Out</th>
+            <th>Total Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var payroll in Model)
+        {
+            <tr>
+                <td>@payroll.Id</td>
+                <td>@payroll.Name</td>
+                <td>@payroll.Level</td>
+                <td>@payroll.Date.ToString("yyyy-MM-dd")</td>
+                <td>@payroll.TapIn</td>
+                <td>@payroll.TapOut</td>
+                <td>@payroll.TotalHours</td>
+            </tr>
+        }
+    </tbody>
+</table>
