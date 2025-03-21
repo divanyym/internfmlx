@@ -1,2 +1,4 @@
-Id,Name,Level,Date,TapIn,TapOut
-3,Alya,Senior,2025-03-21,08:11:00,02:11:00
+Id,Name,Level,Date,TapIn,TapOut,TotalHours,TotalSalary
+18,Prita,Senior,2025-03-21,09:53:00,15:53:00,6,600000
+18,Prita,Senior,2025-03-20,10:01:00,16:01:00,6,600000
+18,Prita,Senior,2025-03-22,10:04:00,16:10:00,6.1,610000

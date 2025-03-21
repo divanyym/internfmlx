@@ -1,7 +1,9 @@
-@model List<MvcMovie.Models.Payroll>
+@using MvcMovie.Models
+@model List<Payroll>
 
 <h2>Payroll Data</h2>
 <a href="/Payroll/Add" class="btn btn-primary">Add Payroll</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -12,20 +14,42 @@
             <th>Tap In</th>
             <th>Tap Out</th>
             <th>Total Hours</th>
+            <th>Total Salary</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var payroll in Model)
+        @foreach (var payroll in Model ?? new List<Payroll>())
         {
             <tr>
                 <td>@payroll.Id</td>
                 <td>@payroll.Name</td>
                 <td>@payroll.Level</td>
                 <td>@payroll.Date.ToString("yyyy-MM-dd")</td>
-                <td>@payroll.TapIn</td>
-                <td>@payroll.TapOut</td>
-                <td>@payroll.TotalHours</td>
+                <td>@payroll.TapIn.ToString(@"hh\:mm")</td>
+                <td>@payroll.TapOut.ToString(@"hh\:mm")</td>
+                <td>@(payroll.TotalHours > 0 ? payroll.TotalHours.ToString("0.##") : "-")</td>
+                <td>@payroll.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
             </tr>
         }
     </tbody>
 </table>
+
+<h2>Total Salary per User</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Salary (IDR)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.GroupedPayrolls)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

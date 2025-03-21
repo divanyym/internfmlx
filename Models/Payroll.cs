@@ -1,31 +1,28 @@
-using System;
-
-namespace MvcMovie.Models
+public class Payroll
 {
-    public class Payroll
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public string? Level { get; set; }
+    public DateTime Date { get; set; }
+    public TimeSpan TapIn { get; set; }
+    public TimeSpan TapOut { get; set; }
+
+    public double TotalHours { get; set; }  // Bisa disimpan di database
+    public double TotalSalary { get; set; } // Bisa disimpan di database
+
+    public void CalculatePayroll()
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Level { get; set; }
-        public DateTime Date { get; set; }
-        public TimeSpan TapIn { get; set; }
-        public TimeSpan TapOut { get; set; }
+        TotalHours = (TapOut - TapIn).TotalHours;
+        TotalSalary = TotalHours * GetHourlyRate(Level);
+    }
 
-        public double TotalHours => (TapOut - TapIn).TotalHours;
-
-        public double Salary 
+    private double GetHourlyRate(string? level)
+    {
+        return level switch
         {
-            get
-            {
-                double rate = Level switch
-                {
-                    "junior" => 50000,
-                    "mid" => 75000,
-                    "senior" => 100000,
-                    _ => 50000
-                };
-                return TotalHours * rate;
-            }
-        }
+            "Junior" => 50000,
+            "Senior" => 100000,
+            _ => 75000
+        };
     }
 }
