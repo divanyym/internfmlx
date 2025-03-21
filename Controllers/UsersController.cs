@@ -43,14 +43,13 @@ namespace MvcMovie.Controllers
         {
         var users = ReadCsvData();
 
-    // Filtering (Search)
-    if (!string.IsNullOrEmpty(search))
-    {
-        users = users.Where(u => u.Name?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
-                                u.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true)
-                    .ToList();
-}
-
+        // Filtering (Search)
+        if (!string.IsNullOrEmpty(search))
+        {
+            users = users.Where(u => u.Name?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
+                                    u.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true)
+                        .ToList();
+    }
 
             // Sorting
             switch (sortBy)
@@ -89,5 +88,46 @@ namespace MvcMovie.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult DeleteUser(int id)
+        {
+            var users = ReadCsvData();
+            var updatedUsers = users.Where(u => u.Id != id).ToList(); // Hapus user yang ID-nya sesuai
+
+            // Tulis ulang CSV tanpa user yang dihapus
+            List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
+            foreach (var user in updatedUsers)
+            {
+                lines.Add($"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}");
+            }
+
+            System.IO.File.WriteAllLines(filePath, lines);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUser(User updatedUser)
+        {
+            var users = ReadCsvData();
+            var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
+
+            if (userIndex != -1)
+            {
+                users[userIndex] = updatedUser; // Ganti data user dengan data baru
+            }
+
+            // Tulis ulang CSV dengan data yang diperbarui
+            List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
+            foreach (var user in users)
+            {
+                lines.Add($"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}");
+            }
+
+            System.IO.File.WriteAllLines(filePath, lines);
+            return RedirectToAction("Index");
+}
+
+
     }
 }
