@@ -137,14 +137,17 @@ namespace MvcMovie.Controllers
                 return RedirectToAction("Add");
             }
 
-            // Hitung total jam kerja
-            double totalHours = (TapOut - TapIn).TotalHours;
+            // Hitung total jam kerja (numerik)
+            TimeSpan duration = TapOut - TapIn;
+            double totalHours = duration.TotalHours; 
+            
+            // Format tampilan untuk UI
+            string formattedTotalHours = $"{(int)duration.TotalHours}h {duration.Minutes}m";
+            Console.WriteLine(formattedTotalHours);
 
             // Hitung total gaji berdasarkan level karyawan
-           double hourlyRate = GetHourlyRate(user.Level ?? "Default"); // "Default" bisa diganti sesuai kebutuhan
-           double totalSalary = totalHours * hourlyRate;
-
-
+            double hourlyRate = GetHourlyRate(user.Level ?? "Default"); 
+            double totalSalary = totalHours * hourlyRate; 
 
             payrolls.Add(new Payroll
             {

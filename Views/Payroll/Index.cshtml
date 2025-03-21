@@ -27,8 +27,13 @@
                 <td>@payroll.Date.ToString("yyyy-MM-dd")</td>
                 <td>@payroll.TapIn.ToString(@"hh\:mm")</td>
                 <td>@payroll.TapOut.ToString(@"hh\:mm")</td>
-                <td>@(payroll.TotalHours > 0 ? payroll.TotalHours.ToString("0.##") : "-")</td>
+                <td>
+                    @(payroll.TotalHours > 0 ? 
+                        $"{(int)payroll.TotalHours}h {((payroll.TotalHours - (int)payroll.TotalHours) * 60):0}m" 
+                        : "-")
+                </td>
                 <td>@payroll.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
+
             </tr>
         }
     </tbody>
