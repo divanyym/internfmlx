@@ -1,3 +1,31 @@
 Id,Name,Level,Gender,Address,Phone,Email
 1,cek,junior,Female,jlksakjdkaj,kada,divanydyna09@gmail.com
 2,Rafi,Mid,Female,Jl,082320860090,divanydyna09@gmail.com
+3,Alya,Senior,Female,Jl Sudirman,081234567890,alya@example.com
+4,Budi,Junior,Male,Jl Merdeka,081298765432,budi@example.com
+5,Citra,Mid,Female,Jl Diponegoro,081345678912,citra@example.com
+6,Doni,Senior,Male,Jl Thamrin,081567891234,doni@example.com
+7,Eka,Junior,Female,Jl Gatot Subroto,081678912345,eka@example.com
+8,Fajar,Mid,Male,Jl Kuningan,081789123456,fajar@example.com
+9,Gina,Senior,Female,Jl Sudirman,081891234567,gina@example.com
+10,Hadi,Junior,Male,Jl Merdeka,081912345678,hadi@example.com
+11,Indah,Mid,Female,Jl Diponegoro,081023456789,indah@example.com
+12,Joko,Senior,Male,Jl Thamrin,082134567890,joko@example.com
+13,Kiki,Junior,Female,Jl Gatot Subroto,082245678901,kiki@example.com
+14,Lukman,Mid,Male,Jl Kuningan,082356789012,lukman@example.com
+15,Maya,Senior,Female,Jl Sudirman,082467890123,maya@example.com
+16,Nana,Junior,Female,Jl Merdeka,082578901234,nana@example.com
+17,Oscar,Mid,Male,Jl Diponegoro,082689012345,oscar@example.com
+18,Prita,Senior,Female,Jl Thamrin,082790123456,prita@example.com
+19,Qori,Junior,Female,Jl Gatot Subroto,082801234567,qori@example.com
+20,Rama,Mid,Male,Jl Kuningan,082912345678,rama@example.com
+21,Santi,Senior,Female,Jl Sudirman,083023456789,santi@example.com
+22,Tono,Junior,Male,Jl Merdeka,083134567890,tono@example.com
+23,Usman,Mid,Male,Jl Diponegoro,083245678901,usman@example.com
+24,Vina,Senior,Female,Jl Thamrin,083356789012,vina@example.com
+25,Widi,Junior,Female,Jl Gatot Subroto,083467890123,widi@example.com
+26,Xander,Mid,Male,Jl Kuningan,083578901234,xander@example.com
+27,Yuli,Senior,Female,Jl Sudirman,083689012345,yuli@example.com
+28,Zaki,Junior,Male,Jl Merdeka,083790123456,zaki@example.com
+29,Adit,Mid,Male,Jl Diponegoro,083801234567,adit@example.com
+30,Bella,Senior,Female,Jl Thamrin,083912345678,bella@example.com
