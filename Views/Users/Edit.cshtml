@@ -1,6 +1,8 @@
 @model MvcMovie.Models.User
 
 <h2>Edit User</h2>
+<a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@Model.Id">Hapus</a>
+
 
 <form method="post" action="/Users/EditUser">
     <input type="hidden" name="Id" value="@Model.Id" />
@@ -60,3 +62,5 @@
         <button type="submit" class="btn btn-primary">Save Changes</button>
         <a href="/Users/Index" class="btn btn-secondary">Cancel</a>
     </form>
+
+    

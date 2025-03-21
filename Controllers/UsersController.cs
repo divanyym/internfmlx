@@ -22,21 +22,24 @@ namespace MvcMovie.Controllers
                 foreach (var line in lines.Skip(1)) // Skip header
                 {
                     var values = line.Split(',');
+                    if (values.Length < 7) continue; // Lewati jika tidak cukup data
+
                     users.Add(new User
                     {
-                        Id = int.Parse(values[0]),
-                        Name = values[1],
-                        Level = values[2],
-                        Gender = values[3],
-                        Address = values[4],
-                        Phone = values[5],
-                        Email = values[6]
+                        Id = int.TryParse(values[0], out int id) ? id : 0, // Mencegah error parsing ID
+                        Name = values[1].Trim('"'),  // Menghilangkan tanda kutip jika ada
+                        Level = values[2].Trim('"'),
+                        Gender = values[3].Trim('"'),
+                        Address = values[4].Trim('"'),
+                        Phone = values[5].Trim('"'),
+                        Email = values[6].Trim('"')
                     });
                 }
             }
 
             return users;
         }
+
 
         // Menampilkan data dengan sorting & search
         public IActionResult Index(string search, string sortBy)
@@ -49,7 +52,7 @@ namespace MvcMovie.Controllers
             users = users.Where(u => u.Name?.Contains(search, StringComparison.OrdinalIgnoreCase) == true ||
                                     u.Email?.Contains(search, StringComparison.OrdinalIgnoreCase) == true)
                         .ToList();
-    }
+        }
 
             // Sorting
             switch (sortBy)
@@ -89,45 +92,59 @@ namespace MvcMovie.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult DeleteUser(int id)
         {
+            Console.WriteLine($"Delete request for ID: {id}"); // Debugging
+
             var users = ReadCsvData();
-            var updatedUsers = users.Where(u => u.Id != id).ToList(); // Hapus user yang ID-nya sesuai
+            var userToDelete = users.FirstOrDefault(u => u.Id == id);
+
+            if (userToDelete == null)
+            {
+                Console.WriteLine("User not found!"); // Debugging
+                return NotFound();
+            }
+
+            Console.WriteLine($"Deleting user: {userToDelete.Name}"); // Debugging
+            var updatedUsers = users.Where(u => u.Id != id).ToList();
 
             // Tulis ulang CSV tanpa user yang dihapus
             List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
             foreach (var user in updatedUsers)
             {
-                lines.Add($"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}");
+                lines.Add($"{user.Id},\"{user.Name}\",\"{user.Level}\",\"{user.Gender}\",\"{user.Address}\",\"{user.Phone}\",\"{user.Email}\"");
             }
 
             System.IO.File.WriteAllLines(filePath, lines);
             return RedirectToAction("Index");
         }
 
+
         [HttpPost]
         public IActionResult UpdateUser(User updatedUser)
         {
-            var users = ReadCsvData();
-            var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
+        var users = ReadCsvData();
+        var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
 
-            if (userIndex != -1)
-            {
-                users[userIndex] = updatedUser; // Ganti data user dengan data baru
-            }
+        if (userIndex != -1)
+        {
+            users[userIndex] = updatedUser; // Perbarui data user
+        }
 
-            // Tulis ulang CSV dengan data yang diperbarui
-            List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
-            foreach (var user in users)
-            {
-                lines.Add($"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}");
-            }
+        // Tulis ulang CSV
+        List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
+        foreach (var user in users)
+        {
+            // Menggunakan tanda kutip untuk mencegah error pada nilai dengan koma
+            lines.Add($"{user.Id},\"{user.Name}\",\"{user.Level}\",\"{user.Gender}\",\"{user.Address}\",\"{user.Phone}\",\"{user.Email}\"");
+        }
 
-            System.IO.File.WriteAllLines(filePath, lines);
-            return RedirectToAction("Index");
-}
+        System.IO.File.WriteAllLines(filePath, lines);
+        return RedirectToAction("Index");
+        }
 
 
-    }
-}
+
+        }
+        }
