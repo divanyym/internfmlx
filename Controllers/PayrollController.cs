@@ -74,8 +74,8 @@ namespace MvcMovie.Controllers
                             if (DateTime.TryParse(parts[3], CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date) &&
                                 TimeSpan.TryParse(parts[4], out TimeSpan tapIn) &&
                                 TimeSpan.TryParse(parts[5], out TimeSpan tapOut) &&
-                                double.TryParse(parts[6], out double totalHours) &&
-                                double.TryParse(parts[7], out double totalSalary))
+                                double.TryParse(parts[6], NumberStyles.Any, CultureInfo.InvariantCulture, out double totalHours) &&
+                                double.TryParse(parts[7], NumberStyles.Any, CultureInfo.InvariantCulture, out double totalSalary))
                             {
                                 payrolls.Add(new Payroll
                                 {
@@ -98,11 +98,12 @@ namespace MvcMovie.Controllers
                     }
                 }
             }
+            Console.WriteLine($"✅ Payroll yang terbaca: {payrolls.Count} data.");
             return payrolls;
         }
 
         // 📌 Menampilkan data payroll di halaman Index
-               public IActionResult Index()
+        public IActionResult Index()
         {
             var payrolls = ReadPayrollData();
             var groupedPayrolls = payrolls
@@ -114,6 +115,7 @@ namespace MvcMovie.Controllers
                 }).ToList();
 
             ViewBag.GroupedPayrolls = groupedPayrolls;
+            Console.WriteLine($"✅ Menampilkan {payrolls.Count} payrolls di halaman Index.");
             return View(payrolls);
         }
 
@@ -137,17 +139,17 @@ namespace MvcMovie.Controllers
                 return RedirectToAction("Add");
             }
 
-            // Hitung total jam kerja (numerik)
+            // Hitung total jam kerja
             TimeSpan duration = TapOut - TapIn;
-            double totalHours = duration.TotalHours; 
-            
-            // Format tampilan untuk UI
+            double totalHours = duration.TotalHours;
+
+            // Format tampilan untuk debugging
             string formattedTotalHours = $"{(int)duration.TotalHours}h {duration.Minutes}m";
-            Console.WriteLine(formattedTotalHours);
+            Console.WriteLine($"⌛ Total Jam Kerja: {formattedTotalHours}");
 
             // Hitung total gaji berdasarkan level karyawan
-            double hourlyRate = GetHourlyRate(user.Level ?? "Default"); 
-            double totalSalary = totalHours * hourlyRate; 
+            double hourlyRate = GetHourlyRate(user.Level ?? "Default");
+            double totalSalary = totalHours * hourlyRate;
 
             payrolls.Add(new Payroll
             {
@@ -167,10 +169,11 @@ namespace MvcMovie.Controllers
                 writer.WriteLine("Id,Name,Level,Date,TapIn,TapOut,TotalHours,TotalSalary");
                 foreach (var p in payrolls)
                 {
-                    writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours},{p.TotalSalary}");
+                    writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours.ToString(CultureInfo.InvariantCulture)},{p.TotalSalary.ToString(CultureInfo.InvariantCulture)}");
                 }
             }
 
+            Console.WriteLine($"✅ Data payroll baru telah ditulis ke file. Total Payrolls: {payrolls.Count}");
             return RedirectToAction("Index");
         }
 
