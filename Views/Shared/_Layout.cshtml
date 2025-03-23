@@ -28,6 +28,7 @@
                         <li class="nav-item">
                             <a class="nav-link nav-custom" asp-area="" asp-controller="Payroll" asp-action="Index">Payroll</a>
                         </li>
+                        <li>
                     </ul>
                 </div>
             </div>
@@ -46,50 +47,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-<style>
-    /* Navbar Styling */
-    .navbar {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #0072ff;
-    }
-
-    /* Fix agar navbar tetap tengah */
-    .navbar .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    /* Pusatkan menu */
-    .navbar-nav {
-        gap: 20px;
-    }
-
-    /* Style untuk link navbar */
-    .nav-custom {
-        font-size: 1rem;
-        font-weight: 500;
-        color: rgba(0, 0, 0, 0.7);
-        transition: color 0.3s ease, border-bottom 0.3s ease;
-        padding-bottom: 3px;
-        border-bottom: 2px solid transparent;
-    }
-
-    /* Hover dan active effect */
-    .nav-custom:hover,
-    .nav-custom.active {
-        color: #0072ff;
-        border-bottom: 2px solid #0072ff;
-    }
-
-    /* Perbaiki jarak konten di bawah navbar */
-    .mt-5.pt-5 {
-        padding-top: 80px;
-    }
-</style>

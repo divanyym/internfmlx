@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "A1jTTzu/2qPwdmBDrzqFRCNv52ZCdTfLQFbWt8VZESg=",
+  "Hash": "ET3TA9sXiSTz1X+MiKcTtqxL7HABH1pgmaaFo7uJiTk=",
   "Source": "MvcMovie",
   "BasePath": "_content/MvcMovie",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\formulatrix.png"
+    },
+    {
+      "Identity": "D:\\Formulatrix\\internfmlx\\wwwroot\\images\\Home.jpg",
+      "SourceId": "MvcMovie",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Formulatrix\\internfmlx\\wwwroot\\",
+      "BasePath": "_content/MvcMovie",
+      "RelativePath": "images/Home.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Home.jpg"
     },
     {
       "Identity": "D:\\Formulatrix\\internfmlx\\wwwroot\\js\\site.js",

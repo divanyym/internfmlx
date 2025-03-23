@@ -13,14 +13,19 @@ namespace MvcMovie.Controllers
         private readonly string userFilePath = "wwwroot/data.csv";
         private readonly string payrollFilePath = "wwwroot/payroll.csv";
 
-        // Baca data karyawan dari CSV
+        // 📌 Baca data karyawan dari CSV
         private List<User> ReadUserData()
         {
             List<User> users = new List<User>();
-            if (!System.IO.File.Exists(userFilePath)) return users;
+
+            if (!System.IO.File.Exists(userFilePath))
+            {
+                Console.WriteLine("⚠️ WARNING: File data.csv tidak ditemukan!");
+                return users;
+            }
 
             var lines = System.IO.File.ReadAllLines(userFilePath);
-            foreach (var line in lines.Skip(1)) // Lewati header
+            foreach (var line in lines.Skip(1)) // Skip header
             {
                 var parts = line.Split(',');
                 if (parts.Length == 7)
@@ -40,124 +45,149 @@ namespace MvcMovie.Controllers
             return users;
         }
 
-        // Baca data payroll dari CSV
+        // 📌 Baca data payroll dari CSV
         private List<Payroll> ReadPayrollData()
-{
-    List<User> users = ReadUserData();  // Pastikan ini juga mengembalikan data
-    List<Payroll> payrolls = new List<Payroll>();
-
-    if (!System.IO.File.Exists(payrollFilePath))
-    {
-        Console.WriteLine("🚨 ERROR: File payroll.csv tidak ditemukan!");
-        return payrolls;
-    }
-
-    var lines = System.IO.File.ReadAllLines(payrollFilePath);
-    Console.WriteLine($"📂 Payroll File Loaded: {lines.Length} lines");
-
-    foreach (var line in lines.Skip(1)) // Skip header
-    {
-        var parts = line.Split(',');
-        Console.WriteLine($"📝 Reading Line: {line}");  // Tambahkan log ini
-
-        if (parts.Length == 5)
         {
-            try
-            {
-                int id = int.Parse(parts[0]);
-                User? user = users.FirstOrDefault(u => u.Id == id);
+            List<Payroll> payrolls = new List<Payroll>();
+            List<User> users = ReadUserData();
 
-                if (user != null)
+            if (!System.IO.File.Exists(payrollFilePath) || System.IO.File.ReadAllLines(payrollFilePath).Length <= 1)
+            {
+                Console.WriteLine("⚠️ WARNING: File payroll.csv kosong atau tidak ditemukan!");
+                return payrolls;
+            }
+
+            var lines = System.IO.File.ReadAllLines(payrollFilePath);
+            foreach (var line in lines.Skip(1)) // Skip header
+            {
+                var parts = line.Split(',');
+
+                if (parts.Length == 8)
                 {
-                    payrolls.Add(new Payroll
+                    try
                     {
-                        Id = id,
-                        Name = user.Name,
-                        Level = user.Level,
-                        Date = DateTime.Parse(parts[2], CultureInfo.InvariantCulture),
-                        TapIn = TimeSpan.Parse(parts[3]),
-                        TapOut = TimeSpan.Parse(parts[4])
-                    });
+                        int id = int.Parse(parts[0]);
+                        User? user = users.FirstOrDefault(u => u.Id == id);
 
-                    Console.WriteLine($"✅ Added Payroll: {id} - {user.Name} - {parts[2]} - {parts[3]} - {parts[4]}");
-                }
-                else
-                {
-                    Console.WriteLine($"⚠️ WARNING: User ID {id} tidak ditemukan di data user.");
+                        if (user != null)
+                        {
+                            if (DateTime.TryParse(parts[3], CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date) &&
+                                TimeSpan.TryParse(parts[4], out TimeSpan tapIn) &&
+                                TimeSpan.TryParse(parts[5], out TimeSpan tapOut) &&
+                                double.TryParse(parts[6], out double totalHours) &&
+                                double.TryParse(parts[7], out double totalSalary))
+                            {
+                                payrolls.Add(new Payroll
+                                {
+                                    Id = id,
+                                    Name = user.Name,
+                                    Level = user.Level,
+                                    Date = date,
+                                    TapIn = tapIn,
+                                    TapOut = tapOut,
+                                    TotalHours = totalHours,
+                                    TotalSalary = totalSalary
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ ERROR: Gagal parsing line: {line}");
+                        Console.WriteLine($"🔍 Exception: {ex.Message}");
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"❌ ERROR: Gagal parsing line: {line}");
-                Console.WriteLine($"🔍 Exception: {ex.Message}");
-            }
+            return payrolls;
         }
-        else
-        {
-            Console.WriteLine($"⚠️ WARNING: Format salah di line: {line}");
-        }
-    }
 
-    Console.WriteLine($"📊 Total Payroll Records Loaded: {payrolls.Count}");
-    return payrolls;
-}
-
-
-        // Menampilkan data payroll
-        public IActionResult Index()
+        // 📌 Menampilkan data payroll di halaman Index
+               public IActionResult Index()
         {
             var payrolls = ReadPayrollData();
+            var groupedPayrolls = payrolls
+                .GroupBy(p => p.Name)
+                .Select(g => new
+                {
+                    Name = g.Key,
+                    TotalSalary = g.Sum(p => p.TotalSalary)
+                }).ToList();
 
-            Console.WriteLine("Payroll Data Loaded:");
-            foreach (var p in payrolls)
-            {
-                Console.WriteLine($"{p.Id} - {p.Name} - {p.Date:yyyy-MM-dd} - {p.TapIn} - {p.TapOut}");
-            }
-
+            ViewBag.GroupedPayrolls = groupedPayrolls;
             return View(payrolls);
         }
 
-        // Form untuk menambahkan data payroll
+        // 📌 Form untuk menambahkan data payroll
         public IActionResult Add()
         {
             return View();
         }
 
-        // Simpan data payroll baru
+        // 📌 Simpan data payroll ke CSV
         [HttpPost]
-       public IActionResult SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
-{
-    var payrolls = ReadPayrollData();
-    var users = ReadUserData();
-    var user = users.FirstOrDefault(u => u.Id == Id);
-
-    if (user == null)
-    {
-        TempData["Error"] = "User tidak ditemukan!";
-        return RedirectToAction("Add");
-    }
-
-    payrolls.Add(new Payroll
-    {
-        Id = Id,
-        Name = user.Name,
-        Level = user.Level,
-        Date = Date,
-        TapIn = TapIn,
-        TapOut = TapOut
-    });
-
-    // Simpan ke CSV dengan format lengkap
-    using (var writer = new StreamWriter(payrollFilePath))
-    {
-        writer.WriteLine("Id,Name,Level,Date,TapIn,TapOut"); // ✅ Header lengkap
-        foreach (var p in payrolls)
+        public IActionResult SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
         {
-            writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut}"); // ✅ Simpan lengkap
+            var payrolls = ReadPayrollData();
+            var users = ReadUserData();
+            var user = users.FirstOrDefault(u => u.Id == Id);
+
+            if (user == null)
+            {
+                TempData["Error"] = "User tidak ditemukan!";
+                return RedirectToAction("Add");
+            }
+
+            // Hitung total jam kerja (numerik)
+            TimeSpan duration = TapOut - TapIn;
+            double totalHours = duration.TotalHours; 
+            
+            // Format tampilan untuk UI
+            string formattedTotalHours = $"{(int)duration.TotalHours}h {duration.Minutes}m";
+            Console.WriteLine(formattedTotalHours);
+
+            // Hitung total gaji berdasarkan level karyawan
+            double hourlyRate = GetHourlyRate(user.Level ?? "Default"); 
+            double totalSalary = totalHours * hourlyRate; 
+
+            payrolls.Add(new Payroll
+            {
+                Id = Id,
+                Name = user.Name,
+                Level = user.Level,
+                Date = Date,
+                TapIn = TapIn,
+                TapOut = TapOut,
+                TotalHours = totalHours,
+                TotalSalary = totalSalary
+            });
+
+            // Simpan ke CSV dengan format yang benar
+            using (var writer = new StreamWriter(payrollFilePath))
+            {
+                writer.WriteLine("Id,Name,Level,Date,TapIn,TapOut,TotalHours,TotalSalary");
+                foreach (var p in payrolls)
+                {
+                    writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours},{p.TotalSalary}");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // 📌 Fungsi untuk mendapatkan gaji per jam berdasarkan level karyawan
+        private double GetHourlyRate(string level)
+        {
+            switch (level.ToLower())
+            {
+                case "junior":
+                    return 50000; // Rp 50.000 per jam
+                case "mid":
+                    return 75000; // Rp 75.000 per jam
+                case "senior":
+                    return 100000; // Rp 100.000 per jam
+                default:
+                    return 40000; // Default jika level tidak ditemukan
+            }
         }
     }
-
-    return RedirectToAction("Index");
 }
-
-    }}

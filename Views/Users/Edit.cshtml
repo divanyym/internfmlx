@@ -1,0 +1,66 @@
+@model MvcMovie.Models.User
+
+<h2>Edit User</h2>
+<a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@Model.Id">Hapus</a>
+
+
+<form method="post" action="/Users/EditUser">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input type="text" name="Name" class="form-control" value="@Model.Name" required>
+    </div>
+
+    <div class="mb-3">
+       <select name="Level" class="form-select">
+    @if (Model.Level == "Junior")
+    {
+        <option value="Junior" selected>Junior</option>
+    }
+    else
+    {
+        <option value="Junior">Junior</option>
+    }
+
+    @if (Model.Level == "Mid")
+    {
+        <option value="Mid" selected>Mid</option>
+    }
+    else
+    {
+        <option value="Mid">Mid</option>
+    }
+
+    @if (Model.Level == "Senior")
+    {
+        <option value="Senior" selected>Senior</option>
+    }
+    else
+    {
+        <option value="Senior">Senior</option>
+    }
+    </select>
+
+        </div>
+
+        <div class="mb-3">
+            <label>Address</label>
+            <input type="text" name="Address" class="form-control" value="@Model.Address" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Phone</label>
+            <input type="text" name="Phone" class="form-control" value="@Model.Phone" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="Email" class="form-control" value="@Model.Email" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/Users/Index" class="btn btn-secondary">Cancel</a>
+    </form>
+
+    

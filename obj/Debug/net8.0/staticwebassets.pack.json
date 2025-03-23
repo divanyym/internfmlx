@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\formulatrix.png"
     },
     {
+      "Id": "D:\\Formulatrix\\internfmlx\\wwwroot\\images\\Home.jpg",
+      "PackagePath": "staticwebassets\\images\\Home.jpg"
+    },
+    {
       "Id": "D:\\Formulatrix\\internfmlx\\wwwroot\\images\\formulatrix.png",
       "PackagePath": "staticwebassets\\images\\formulatrix.png"
     },
