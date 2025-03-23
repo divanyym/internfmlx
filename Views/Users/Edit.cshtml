@@ -7,10 +7,6 @@
     <div class="alert alert-danger">@TempData["Error"]</div>
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
 
     <form asp-controller="Users" asp-action="Edit" method="post">
     @Html.AntiForgeryToken()
