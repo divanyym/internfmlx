@@ -1,66 +1,63 @@
 @model MvcMovie.Models.User
 
 <h2>Edit User</h2>
-<a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@Model.Id">Hapus</a>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
 
-<form method="post" action="/Users/EditUser">
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+    <form asp-controller="Users" asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
     <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="mb-3">
-        <label>Name</label>>
+        <label>Name</label>
         <input type="text" name="Name" class="form-control" value="@Model.Name" required>
     </div>
 
     <div class="mb-3">
-       <select name="Level" class="form-select">
-    @if (Model.Level == "Junior")
-    {
-        <option value="Junior" selected>Junior</option>
-    }
-    else
-    {
-        <option value="Junior">Junior</option>
-    }
+        <label>Level</label>
+        <select name="Level" class="form-select">
+            @foreach (var level in new[] { "Junior", "Mid", "Senior" })
+            {
+                <option value="@level" selected="@(Model.Level == level ? "selected" : null)">@level</option>
+            }
+        </select>
+    </div>
 
-    @if (Model.Level == "Mid")
-    {
-        <option value="Mid" selected>Mid</option>
-    }
-    else
-    {
-        <option value="Mid">Mid</option>
-    }
+    <div class="mb-3">
+        <label>Gender</label>
+        <select name="Gender" class="form-select">
+            <option value="Male" selected="@(Model.Gender == "Male" ? "selected" : null)">Male</option>
+            <option value="Female" selected="@(Model.Gender == "Female" ? "selected" : null)">Female</option>
+        </select>
+    </div>
 
-    @if (Model.Level == "Senior")
-    {
-        <option value="Senior" selected>Senior</option>
-    }
-    else
-    {
-        <option value="Senior">Senior</option>
-    }
-    </select>
+    <div class="mb-3">
+        <label>Address</label>
+        <input type="text" name="Address" class="form-control" value="@Model.Address" required>
+    </div>
 
-        </div>
+    <div class="mb-3">
+        <label>Phone</label>
+        <input type="text" name="Phone" class="form-control" value="@Model.Phone" required>
+    </div>
 
-        <div class="mb-3">
-            <label>Address</label>
-            <input type="text" name="Address" class="form-control" value="@Model.Address" required>
-        </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="Email" class="form-control" value="@Model.Email" required>
+    </div>
+        <form asp-action="Edit" method="post">
+            <!-- Form input untuk pengguna -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
 
-        <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="Phone" class="form-control" value="@Model.Phone" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="Email" class="form-control" value="@Model.Email" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="/Users/Index" class="btn btn-secondary">Cancel</a>
-    </form>
-
-    
+    <a asp-controller="Users" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

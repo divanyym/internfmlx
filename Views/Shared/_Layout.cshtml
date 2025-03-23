@@ -28,7 +28,17 @@
                         <li class="nav-item">
                             <a class="nav-link nav-custom" asp-area="" asp-controller="Payroll" asp-action="Index">Payroll</a>
                         </li>
-                        <li>
+                        @if (ViewData["User"] != null)
+                {
+                    var user = (ViewData["User"] as User) ?? new User();
+                    <li>
+                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    </li>
+                }
+
                     </ul>
                 </div>
             </div>

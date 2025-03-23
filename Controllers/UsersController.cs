@@ -120,31 +120,48 @@ namespace MvcMovie.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("Users/Edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            var users = ReadCsvData();
+            var user = users.FirstOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound(); // 404 kalau user tidak ditemukan
+            }
+
+            return View(user);
+        }
 
         [HttpPost]
-        public IActionResult UpdateUser(User updatedUser)
+       
+        public IActionResult Edit(User updatedUser)
+
         {
-        var users = ReadCsvData();
-        var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
+            var users = ReadCsvData();
+            var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
 
-        if (userIndex != -1)
-        {
-            users[userIndex] = updatedUser; // Perbarui data user
+            if (userIndex == -1)
+            {
+                TempData["Error"] = "User tidak ditemukan.";
+                return RedirectToAction("Index");
+            }
+
+            // Update data user
+            users[userIndex] = updatedUser;
+
+            // Tulis ulang CSV
+            List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
+            foreach (var user in users)
+            {
+                lines.Add($"{user.Id},\"{user.Name}\",\"{user.Level}\",\"{user.Gender}\",\"{user.Address}\",\"{user.Phone}\",\"{user.Email}\"");
+            }
+
+            System.IO.File.WriteAllLines(filePath, lines);
+            
+            TempData["Success"] = "User berhasil diperbarui.";
+            return RedirectToAction("Index");
         }
-
-        // Tulis ulang CSV
-        List<string> lines = new List<string> { "Id,Name,Level,Gender,Address,Phone,Email" };
-        foreach (var user in users)
-        {
-            // Menggunakan tanda kutip untuk mencegah error pada nilai dengan koma
-            lines.Add($"{user.Id},\"{user.Name}\",\"{user.Level}\",\"{user.Gender}\",\"{user.Address}\",\"{user.Phone}\",\"{user.Email}\"");
-        }
-
-        System.IO.File.WriteAllLines(filePath, lines);
-        return RedirectToAction("Index");
-        }
-
-
-
-        }
-        }
+    }
+}
