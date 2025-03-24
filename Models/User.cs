@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MvcMovie.Models
 {
     public class User
@@ -7,7 +9,11 @@ namespace MvcMovie.Models
         public string? Level { get; set; }
         public string? Gender { get; set; }
         public string? Address { get; set; }
+
+        [Required]
+        [StringLength(12, ErrorMessage = "Phone number cannot exceed 12 digits.")]
         public string? Phone { get; set; }
+
         public string? Email { get; set; }
     }
 }
