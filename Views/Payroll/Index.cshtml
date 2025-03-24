@@ -29,11 +29,11 @@
                 <td>@payroll.TapOut.ToString(@"hh\:mm")</td>
                 <td>
                     @(payroll.TotalHours > 0 ? 
-                        $"{(int)payroll.TotalHours}h {((payroll.TotalHours - (int)payroll.TotalHours) * 60):0}m" 
+                        $"{(int)payroll.TotalHours} h {((payroll.TotalHours - (int)payroll.TotalHours) * 60):0}m" 
                         : "-")
                 </td>
                 <td>@payroll.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
-
+                
             </tr>
         }
     </tbody>

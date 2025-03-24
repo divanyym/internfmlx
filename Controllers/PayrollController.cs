@@ -122,6 +122,7 @@ namespace MvcMovie.Controllers
         // 📌 Form untuk menambahkan data payroll
         public IActionResult Add()
         {
+            TempData["PreviousPage"] = Request.Headers["Referer"].ToString();
             return View();
         }
 
@@ -173,8 +174,10 @@ namespace MvcMovie.Controllers
                 }
             }
 
+            TempData["Success"] = "Data payroll berhasil disimpan!";
+
             Console.WriteLine($"✅ Data payroll baru telah ditulis ke file. Total Payrolls: {payrolls.Count}");
-            return RedirectToAction("Index");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         // 📌 Fungsi untuk mendapatkan gaji per jam berdasarkan level karyawan

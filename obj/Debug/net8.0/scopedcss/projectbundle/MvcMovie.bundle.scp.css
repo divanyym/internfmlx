@@ -1,0 +1,145 @@
+/* _content/MvcMovie/Views/Shared/_Layout.cshtml.rz.scp.css */
+a[b-0uvum7rpp4] {
+  color: #0077cc;
+}
+
+.btn-primary[b-0uvum7rpp4] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-0uvum7rpp4] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-0uvum7rpp4] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-0uvum7rpp4] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-0uvum7rpp4] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-0uvum7rpp4] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+.hero-container[b-0uvum7rpp4] {
+  padding: 80px 20px 20px; 
+  min-height: 80vh; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.text-gradient[b-0uvum7rpp4] {
+background: linear-gradient(90deg, #00c6ff, #0072ff);
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+
+.btn-gradient[b-0uvum7rpp4] {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-gradient:hover[b-0uvum7rpp4] {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 198, 255, 0.4);
+}
+
+/* Navbar Styling */
+.navbar[b-0uvum7rpp4] {
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-brand[b-0uvum7rpp4] {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0072ff;
+}
+
+/* Fix agar navbar tetap tengah */
+.navbar .container[b-0uvum7rpp4] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pusatkan menu */
+.navbar-nav[b-0uvum7rpp4] {
+  gap: 20px;
+}
+
+/* Style untuk link navbar */
+.nav-custom[b-0uvum7rpp4] {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+
+/* Hover dan active effect */
+.nav-custom:hover[b-0uvum7rpp4],
+.nav-custom.active[b-0uvum7rpp4] {
+  color: #0072ff;
+  border-bottom: 2px solid #0072ff;
+}
+
+/* Perbaiki jarak konten di bawah navbar */
+.mt-5.pt-5[b-0uvum7rpp4] {
+  padding-top: 80px;
+}
+
+.hero[b-0uvum7rpp4] {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.hero h1[b-0uvum7rpp4] {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.hero .brand[b-0uvum7rpp4] {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.hero p[b-0uvum7rpp4] {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.btn[b-0uvum7rpp4] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 5px;
+}
+
+.btn:hover[b-0uvum7rpp4] {
+  background-color: #0056b3;
+}

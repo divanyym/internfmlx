@@ -17,4 +17,19 @@
         <input type="time" name="TapOut" class="form-control" required>
     </div>
     <button type="submit" class="btn btn-success">Save</button>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <a href="/Payroll" class="btn btn-secondary">Back</a>
 </form>
