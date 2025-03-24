@@ -1,98 +1,117 @@
 @model List<MvcMovie.Models.User>
 
-        <h2 class="text-center mb-4">User Information Center</h2>
+<h2 class="text-center mb-4">User Information Center</h2>
 
-        <!-- Form Input User -->
-        <div class="card shadow-sm p-4 mb-4">
-            <h4 class="mb-3">Add New User</h4>
-            <form action="/Users/SaveUser" method="post" class="row g-3">
-                <div class="col-md-6">
-                    <input type="text" name="Name" class="form-control" placeholder="Name" required>
-                </div>
-                <div class="col-md-6">
-                    <select name="Level" class="form-select">
-                        <option value="Select">Level</option>
-                        <option value="Junior">Junior</option>
-                        <option value="Mid">Mid</option>
-                        <option value="Mid">Senior</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <select name="Gender" class="form-select">
-                        <option value="Select">Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" name="Address" class="form-control" placeholder="Address" required>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" name="Phone" class="form-control" placeholder="Phone" required maxlength="12">
-                </div>
-                <div class="col-md-6">
-                    <input type="email" name="Email" class="form-control" placeholder="Email" required>
-                </div>
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary w-50">Add User</button>
-                </div>
-                <p></p>
-            </form>
-
-        <!-- Search -->
-        <form method="get" action="/Users/Index" class="mb-4 d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Search by name or email">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
-        </form>
-
-        <!-- Sorting -->
-        <p class="text-center">Sort by: 
-            <a href="/Users/Index?sortBy=name" class="text-primary text-decoration-none">Name</a> |
-            <a href="/Users/Index?sortBy=level" class="text-primary text-decoration-none">Level</a> |
-            <a href="/Users/Index?sortBy=gender" class="text-primary text-decoration-none">Gender</a>
-        </p>
-
-        <!-- Tabel Data -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover shadow-sm text-center">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Level</th>
-                        <th>Gender</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in Model)
-                    {
-                        <tr>
-                            <td>@user.Id</td>
-                            <td>@user.Name</td>
-                            <td>@user.Level</td>
-                            <td>@user.Gender</td>
-                            <td>@user.Address</td>
-                            <td>@user.Phone</td>
-                            <td>@user.Email</td>
-                            <td>
-                            <a href="/Users/Edit/@user.Id" class="btn btn-warning btn-sm me-2">Edit</a>
-                            <a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
-                            @if (TempData["Error"] != null)
-                            {
-                                <div class="alert alert-danger">
-                                    @TempData["Error"]
-                                </div>
-                            }
-                        </td>
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<!-- Form Input User -->
+<div class="card shadow-sm p-4 mb-4">
+    <h4 class="mb-3">Add New User</h4>
+    <form action="/Users/SaveUser" method="post" class="row g-3">
+        <div class="col-md-6">
+            <input type="text" name="Name" class="form-control" placeholder="Name" required>
         </div>
+        <div class="col-md-6">
+            <select name="Level" class="form-select">
+                <option value="Select">Level</option>
+                <option value="Junior">Junior</option>
+                <option value="Mid">Mid</option>
+                <option value="Senior">Senior</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <select name="Gender" class="form-select">
+                <option value="Select">Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="Address" class="form-control" placeholder="Address" required>
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="Phone" class="form-control" placeholder="Phone" required maxlength="12">
+        </div>
+        <div class="col-md-6">
+            <input type="email" name="Email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary w-50">Add User</button>
+        </div>
+    </form>
+</div>
 
+<!-- Search -->
+<form method="get" action="/Users/Index" class="mb-4 d-flex">
+    <input type="text" name="search" value="@ViewBag.Search" class="form-control me-2" placeholder="Search by name or email">
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+</form>
 
+<!-- Sorting -->
+<p class="text-center">Sort by: 
+    <a href="/Users/Index?search=@ViewBag.Search&sortBy=name" class="text-primary text-decoration-none">Name</a> |
+    <a href="/Users/Index?search=@ViewBag.Search&sortBy=level" class="text-primary text-decoration-none">Level</a> |
+    <a href="/Users/Index?search=@ViewBag.Search&sortBy=gender" class="text-primary text-decoration-none">Gender</a>
+</p>
+
+<!-- Tabel Data -->
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm text-center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Name</td>
+                    <td>@user.Level</td>
+                    <td>@user.Gender</td>
+                    <td>@user.Address</td>
+                    <td>@user.Phone</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a href="/Users/Edit/@user.Id" class="btn btn-warning btn-sm me-2">Edit</a>
+                        <a asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination -->
+<div class="text-center mt-4">
+    <nav>
+        <ul class="pagination justify-content-center">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@(ViewBag.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@i">@i</a>
+                </li>
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@(ViewBag.CurrentPage + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
