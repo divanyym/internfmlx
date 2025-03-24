@@ -10,8 +10,14 @@ namespace MvcMovie.Controllers
 {
     public class PayrollController : Controller
     {
-        private readonly string userFilePath = "wwwroot/data.csv";
-        private readonly string payrollFilePath = "wwwroot/payroll.csv";
+        private readonly string userFilePath;
+        private readonly string payrollFilePath;
+
+         public PayrollController(IConfiguration configuration)
+        {
+            userFilePath = configuration["FilePaths:UserFile"] ?? throw new ArgumentNullException(nameof(configuration), "User file path is missing");
+            payrollFilePath = configuration["FilePaths:PayrollFile"] ?? throw new ArgumentNullException(nameof(configuration), "Payroll file path is missing");
+        }
 
         // 📌 Baca data karyawan dari CSV
         private List<User> ReadUserData()

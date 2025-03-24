@@ -1,35 +1,51 @@
 Id,Name,Level,Gender,Address,Phone,Email
-2,"Rafi A","Mid","Male","Jl. Joko tingkir","082320860090","divanydyna09@gmail.com"
-3,"Alya","Senior","Female","Jl Sudirman","081234567890","alya@example.com"
-4,"Budi","Junior","Male","Jl Merdeka","081298765432","budi@example.com"
-5,"Citra","Mid","Female","Jl Diponegoro","081345678912","citra@example.com"
-6,"Doni","Senior","Male","Jl Thamrin","081567891234","doni@example.com"
-7,"Eka","Junior","Female","Jl Gatot Subroto","081678912345","eka@example.com"
-8,"Fajar","Mid","Male","Jl Kuningan","081789123456","fajar@example.com"
-9,"Gina","Senior","Female","Jl Sudirman","081891234567","gina@example.com"
-10,"Hadi","Junior","Male","Jl Merdeka","081912345678","hadi@example.com"
-11,"Indah","Mid","Female","Jl Diponegoro","081023456789","indah@example.com"
-12,"Joko","Senior","Male","Jl Thamrin","082134567890","joko@example.com"
-13,"Kiki","Junior","Female","Jl Gatot Subroto","082245678901","kiki@example.com"
-14,"Lukman","Mid","Male","Jl Kuningan","082356789012","lukman@example.com"
-15,"Maya","Senior","Female","Jl Sudirman","082467890123","maya@example.com"
-16,"Nana","Junior","Female","Jl Merdeka","082578901234","nana@example.com"
-17,"Oscar","Mid","Male","Jl Diponegoro","082689012345","oscar@example.com"
-18,"Prita","Senior","Female","Jl Thamrin","082790123456","prita@example.com"
-19,"Qori","Junior","Female","Jl Gatot Subroto","082801234567","qori@example.com"
-20,"Rama","Mid","Male","Jl Kuningan","082912345678","rama@example.com"
-21,"Santi","Senior","Female","Jl Sudirman","083023456789","santi@example.com"
-22,"Tono","Junior","Male","Jl Merdeka","083134567890","tono@example.com"
-23,"Usman","Mid","Male","Jl Diponegoro","083245678901","usman@example.com"
-24,"Vina","Senior","Female","Jl Thamrin","083356789012","vina@example.com"
-25,"Widi","Junior","Female","Jl Gatot Subroto","083467890123","widi@example.com"
-26,"Xander","Mid","Male","Jl Kuningan","083578901234","xander@example.com"
-27,"Yuli","Senior","Female","Jl Sudirman","083689012345","yuli@example.com"
-28,"Zaki","Junior","Male","Jl Merdeka","083790123456","zaki@example.com"
-29,"Adit","Mid","Male","Jl Diponegoro","083801234567","adit@example.com"
-30,"Bella","Senior","Female","Jl Thamrin","083912345678","bella@example.com"
-31,"Raihan Ma","Mid","Male","Jl. Plumbon","08888888888899","raihrairahria@gmail.com"
-35,"Divany","Junior","Female","Jl.absdashda","1241241741","divanydyna09@gmail.com"
-36,"Fitra","Mid","Female","Jl.bahagia","1204701274","xyz@gmail.com"
-37,"Reta","Junior","Female","Jl.picung","082428108182","ghj@gmail.com"
-38,Iman,Mid,Female,Jl.xyzka,238210381083,any@gmail.com
+1,Cinta,Mid,Male,Jl. ABCD,231839183912,gyh@gmail.com
+2,Rizky,Senior,Male,Jl. Melati No. 12,081234567890,rizky@mail.com
+3,Alya,Junior,Female,Jl. Mawar No. 5,082198765432,alya@mail.com
+4,Bima,Mid,Male,Jl. Anggrek No. 8,081345678912,bima@mail.com
+5,Nadya,Senior,Female,Jl. Kenanga No. 3,087812345678,nadya@mail.com
+6,Fahri,Junior,Male,Jl. Cemara No. 11,082134567819,fahri@mail.com
+7,Siti,Mid,Female,Jl. Dahlia No. 7,081987654321,siti@mail.com
+8,Hendra,Senior,Male,Jl. Merpati No. 9,085678123456,hendra@mail.com
+9,Lisa,Junior,Female,Jl. Cendana No. 10,089012345678,lisa@mail.com
+10,Agus,Mid,Male,Jl. Pinus No. 6,081223344556,agus@mail.com
+11,Tari,Senior,Female,Jl. Flamboyan No. 15,083498765432,tari@mail.com
+12,Ardi,Junior,Male,Jl. Bougenville No. 14,082789012345,ardi@mail.com
+13,Nina,Mid,Female,Jl. Teratai No. 19,081678901234,nina@mail.com
+14,Doni,Senior,Male,Jl. Melur No. 4,085612345678,doni@mail.com
+15,Yuli,Junior,Female,Jl. Jati No. 16,082934567812,yuli@mail.com
+16,Reza,Mid,Male,Jl. Sawo No. 17,081323456789,reza@mail.com
+17,Ani,Senior,Female,Jl. Durian No. 18,087789012345,ani@mail.com
+18,Fikri,Junior,Male,Jl. Mangga No. 2,083445678901,fikri@mail.com
+19,Dewi,Mid,Female,Jl. Rambutan No. 22,082198765439,dewi@mail.com
+20,Bayu,Senior,Male,Jl. Kedondong No. 23,081556789012,bayu@mail.com
+21,Indah,Junior,Female,Jl. Kemuning No. 24,089612345678,indah@mail.com
+22,Haris,Mid,Male,Jl. Palem No. 25,082134567812,haris@mail.com
+23,Sarah,Senior,Female,Jl. Akasia No. 26,081776543219,sarah@mail.com
+24,Rizal,Junior,Male,Jl. Beringin No. 27,082998877665,rizal@mail.com
+25,Maya,Mid,Female,Jl. Mahoni No. 28,081123456788,maya@mail.com
+26,Erwin,Senior,Male,Jl. Cemara No. 29,083556789012,erwin@mail.com
+27,Lutfi,Junior,Male,Jl. Tanjung No. 30,089667788990,lutfi@mail.com
+28,Mirna,Mid,Female,Jl. Angsana No. 31,081877654322,mirna@mail.com
+29,Adi,Senior,Male,Jl. Kedoya No. 32,082354678901,adi@mail.com
+30,Rina,Junior,Female,Jl. Soka No. 33,081499876543,rina@mail.com
+31,Firman,Mid,Male,Jl. Asoka No. 34,083112233445,firman@mail.com
+32,Lesti,Senior,Female,Jl. Pulai No. 35,087645678901,lesti@mail.com
+33,Hafiz,Junior,Male,Jl. Mahkota No. 36,081398765432,hafiz@mail.com
+34,Sari,Mid,Female,Jl. Melinjo No. 37,089901234567,sari@mail.com
+35,Joko,Senior,Male,Jl. Cempaka No. 38,081665544332,joko@mail.com
+36,Desi,Junior,Female,Jl. Semangka No. 39,082998712345,desi@mail.com
+37,Ahmad,Mid,Male,Jl. Sukun No. 40,081432165798,ahmad@mail.com
+38,Dian,Senior,Female,Jl. Melati No. 41,083467890123,dian@mail.com
+39,Rama,Junior,Male,Jl. Pisang No. 42,081987234567,rama@mail.com
+40,Elsa,Mid,Female,Jl. Alpukat No. 43,082712345678,elsa@mail.com
+41,Surya,Senior,Male,Jl. Jambu No. 44,081334455667,surya@mail.com
+42,Lina,Junior,Female,Jl. Nangka No. 45,089887766554,lina@mail.com
+43,Kevin,Mid,Male,Jl. Duku No. 46,081112233445,kevin@mail.com
+44,Tasya,Senior,Female,Jl. Ceri No. 47,082765432198,tasya@mail.com
+45,Bambang,Junior,Male,Jl. Belimbing No. 48,083487654321,bambang@mail.com
+46,Dewi,Mid,Female,Jl. Delima No. 49,081234556789,dewi@mail.com
+47,Toni,Senior,Male,Jl. Sirsak No. 50,082390123456,toni@mail.com
+48,Melati,Junior,Female,Jl. Manggis No. 51,081776655443,melati@mail.com
+49,Ferry,Mid,Male,Jl. Kelapa No. 52,083576789012,ferry@mail.com
+50,Clara,Senior,Female,Jl. Coklat No. 53,087890123456,clara@mail.com

@@ -3,6 +3,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Tambahkan layanan MVC
 builder.Services.AddControllersWithViews();
 
+
+// Menambahkan konfigurasi dari appsettings.json
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+
 var app = builder.Build();
 
 // Middleware pipeline

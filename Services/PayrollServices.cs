@@ -1,16 +1,18 @@
 using MvcMovie.Models;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 
 namespace MvcMovie.Services
 {
     public class PayrollService
     {
-        private readonly string userFilePath = "wwwroot/data.csv";
-        private readonly string payrollFilePath = "wwwroot/payroll.csv";
+    private readonly string userFilePath;
+    private readonly string payrollFilePath;
+
+    public PayrollService(IConfiguration configuration)
+    {
+        userFilePath = configuration["FilePaths:UserData"] ?? "wwwroot/data.csv";
+        payrollFilePath = configuration["FilePaths:PayrollData"] ?? "wwwroot/payroll.csv";
+    }
 
         public List<User> ReadUserData()
         {
