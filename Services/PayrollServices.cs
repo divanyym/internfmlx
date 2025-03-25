@@ -41,9 +41,9 @@ namespace MvcMovie.Services
             return users;
         }
 
-        public IEnumerable<Payroll> ReadPayrollData()
+        public IEnumerable<PayrollDTO> ReadPayrollData()
         {
-            var payrolls = new List<Payroll>();
+            var payrolls = new List<PayrollDTO>();
             var users = ReadUserData();
             if (!File.Exists(_payrollFilePath) || File.ReadAllLines(_payrollFilePath).Length <= 1) return payrolls;
 
@@ -59,7 +59,7 @@ namespace MvcMovie.Services
                         double.TryParse(parts[6], NumberStyles.Any, CultureInfo.InvariantCulture, out double totalHours) &&
                         double.TryParse(parts[7], NumberStyles.Any, CultureInfo.InvariantCulture, out double totalSalary))
                     {
-                        payrolls.Add(new Payroll
+                        payrolls.Add(new PayrollDTO
                         {
                             Id = id,
                             Name = user.Name,
@@ -85,7 +85,7 @@ namespace MvcMovie.Services
             double totalHours = (TapOut - TapIn).TotalHours;
             double totalSalary = totalHours * GetHourlyRate(user.Level ?? "Default");
 
-            payrolls.Add(new Payroll
+            payrolls.Add(new PayrollDTO
             {
                 Id = Id,
                 Name = user.Name,
