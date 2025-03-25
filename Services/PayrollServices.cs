@@ -38,6 +38,11 @@ namespace MvcMovie.Services
                     });
                 }
             }
+
+            // Menjalankan GC setelah membaca user data
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             return users;
         }
 
@@ -73,6 +78,11 @@ namespace MvcMovie.Services
                     }
                 }
             }
+
+            // Menjalankan GC setelah membaca payroll data
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             return payrolls;
         }
 
@@ -105,6 +115,11 @@ namespace MvcMovie.Services
                     writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours.ToString(CultureInfo.InvariantCulture)},{p.TotalSalary.ToString(CultureInfo.InvariantCulture)}");
                 }
             }
+
+            // Menjalankan GC setelah menyimpan payroll
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.SuppressFinalize(this);
         }
 
         private double GetHourlyRate(string level)
@@ -117,6 +132,5 @@ namespace MvcMovie.Services
                 _ => 40000,
             };
         }
-        
     }
 }
