@@ -6,9 +6,9 @@ namespace MvcMovie.Services
     {
         private readonly string filePath = "wwwroot/data.csv";
 
-        public List<User> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
-            List<User> users = new List<User>();
+            var users = new List<User>();
 
             if (System.IO.File.Exists(filePath))
             {
@@ -36,8 +36,7 @@ namespace MvcMovie.Services
 
         public void SaveUser(User user)
         {
-            var users = GetUsers();
-            user.Id = users.Count > 0 ? users.Max(u => u.Id) + 1 : 1;
+            var usersList = GetUsers().ToList();
 
             string newData = $"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}\n";
 
@@ -64,15 +63,16 @@ namespace MvcMovie.Services
 
         public void UpdateUser(User updatedUser)
         {
-            var users = GetUsers();
-            var userIndex = users.FindIndex(u => u.Id == updatedUser.Id);
+            var usersList = GetUsers().ToList(); // Konversi ke List agar bisa dimodifikasi
+            var userIndex = usersList.FindIndex(u => u.Id == updatedUser.Id);
 
-            if (userIndex == -1)
-                return;
-
-            users[userIndex] = updatedUser;
-            WriteUsersToFile(users);
+            if (userIndex != -1)
+            {
+                usersList[userIndex] = updatedUser;
+                WriteUsersToFile(usersList);
+            }
         }
+
 
         private void WriteUsersToFile(List<User> users)
         {
