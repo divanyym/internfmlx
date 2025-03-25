@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcMovie.Models;
 using MvcMovie.Services;
-using System.Linq;
 
 namespace MvcMovie.Controllers
 {

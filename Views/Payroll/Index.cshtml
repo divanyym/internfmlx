@@ -1,5 +1,5 @@
 @using MvcMovie.Models
-@model List<Payroll>
+@model List<PayrollDTO>
 
 <h2>Payroll Data</h2>
 <a href="/Payroll/Add" class="btn btn-primary">Add Payroll</a>
@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var payroll in Model ?? new List<Payroll>())
+        @foreach (var payroll in Model ?? new List<PayrollDTO>())
         {
             <tr>
                 <td>@payroll.Id</td>

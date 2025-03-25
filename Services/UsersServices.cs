@@ -61,7 +61,11 @@ namespace MvcMovie.Services
 
         public void SaveUser(User user)
         {
-            var usersList = GetUsers().ToList();
+            var usersList = GetUsers().ToList(); // Ambil semua data user
+
+            // Cari ID tertinggi, lalu tambahkan 1
+            int newId = usersList.Any() ? usersList.Max(u => u.Id) + 1 : 1;
+            user.Id = newId;
 
             string newData = $"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}\n";
 
@@ -83,8 +87,14 @@ namespace MvcMovie.Services
 
             var updatedUsers = users.Where(u => u.Id != id).ToList();
             WriteUsersToFile(updatedUsers);
+
+            #if DEBUG //conditional compilation
+                Console.WriteLine($"[DEBUG] User dengan ID {id} dihapus.");
+            #endif
+
             return true;
         }
+
 
         public void UpdateUser(User updatedUser)
         {
