@@ -34,6 +34,31 @@ namespace MvcMovie.Services
             return users;
         }
 
+        public IEnumerable<User> GetFilteredUsers(string search, string sortBy, int page, int pageSize)
+        {
+            var users = GetUsers().ToList(); // Ambil semua user
+
+            // Filtering (Search)
+            if (!string.IsNullOrEmpty(search))
+            {
+                users = users.Where(u => (u.Name ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                                        (u.Email ?? "").Contains(search, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+            }
+
+            // Sorting
+            users = sortBy switch
+            {
+                "name" => users.OrderBy(u => u.Name).ToList(),
+                "level" => users.OrderBy(u => u.Level).ToList(),
+                "gender" => users.OrderBy(u => u.Gender).ToList(),
+                _ => users
+            };
+
+            // Pagination
+            return users.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
         public void SaveUser(User user)
         {
             var usersList = GetUsers().ToList();
