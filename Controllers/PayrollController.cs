@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using MvcMovie.Models;
 using System.Globalization;
 
-
 namespace MvcMovie.Controllers
 {
     public class PayrollController : Controller
@@ -10,16 +9,16 @@ namespace MvcMovie.Controllers
         private readonly string userFilePath;
         private readonly string payrollFilePath;
 
-         public PayrollController(IConfiguration configuration)
+        public PayrollController(IConfiguration configuration)
         {
             userFilePath = configuration["FilePaths:UserFile"] ?? throw new ArgumentNullException(nameof(configuration), "User file path is missing");
             payrollFilePath = configuration["FilePaths:PayrollFile"] ?? throw new ArgumentNullException(nameof(configuration), "Payroll file path is missing");
         }
 
         // 📌 Baca data karyawan dari CSV
-        private List<User> ReadUserData()
+        private IEnumerable<User> ReadUserData()
         {
-            List<User> users = new List<User>();
+            var users = new List<User>();
 
             if (!System.IO.File.Exists(userFilePath))
             {
@@ -49,10 +48,10 @@ namespace MvcMovie.Controllers
         }
 
         // 📌 Baca data payroll dari CSV
-        private List<Payroll> ReadPayrollData()
+        private IEnumerable<Payroll> ReadPayrollData()
         {
-            List<Payroll> payrolls = new List<Payroll>();
-            List<User> users = ReadUserData();
+            var payrolls = new List<Payroll>();
+            var users = ReadUserData();
 
             if (!System.IO.File.Exists(payrollFilePath) || System.IO.File.ReadAllLines(payrollFilePath).Length <= 1)
             {
@@ -118,7 +117,7 @@ namespace MvcMovie.Controllers
                 }).ToList();
 
             ViewBag.GroupedPayrolls = groupedPayrolls;
-            Console.WriteLine($"✅ Menampilkan {payrolls.Count} payrolls di halaman Index.");
+            Console.WriteLine($"✅ Menampilkan {payrolls.Count()} payrolls di halaman Index.");
             return View(payrolls);
         }
 
@@ -133,7 +132,7 @@ namespace MvcMovie.Controllers
         [HttpPost]
         public IActionResult SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
         {
-            var payrolls = ReadPayrollData();
+            var payrolls = ReadPayrollData().ToList();
             var users = ReadUserData();
             var user = users.FirstOrDefault(u => u.Id == Id);
 
@@ -186,17 +185,13 @@ namespace MvcMovie.Controllers
         // 📌 Fungsi untuk mendapatkan gaji per jam berdasarkan level karyawan
         private double GetHourlyRate(string level)
         {
-            switch (level.ToLower())
+            return level.ToLower() switch
             {
-                case "junior":
-                    return 50000; // Rp 50.000 per jam
-                case "mid":
-                    return 75000; // Rp 75.000 per jam
-                case "senior":
-                    return 100000; // Rp 100.000 per jam
-                default:
-                    return 40000; // Default jika level tidak ditemukan
-            }
+                "junior" => 50000,
+                "mid" => 75000,
+                "senior" => 100000,
+                _ => 40000,
+            };
         }
     }
 }

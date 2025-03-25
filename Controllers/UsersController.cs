@@ -16,36 +16,14 @@ namespace MvcMovie.Controllers
 
         public IActionResult Index(string search, string sortBy, int page = 1, int pageSize = 10)
         {
-            var users = _userService.GetUsers();
+            var users = _userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
 
-            // Filtering (Search)
-            if (!string.IsNullOrEmpty(search))
-            {
-                users = users.Where(u => (u.Name ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                                         (u.Email ?? "").Contains(search, StringComparison.OrdinalIgnoreCase))
-                             .ToList();
-            }
-
-            // Sorting
-            users = sortBy switch
-            {
-                "name" => users.OrderBy(u => u.Name).ToList(),
-                "level" => users.OrderBy(u => u.Level).ToList(),
-                "gender" => users.OrderBy(u => u.Gender).ToList(),
-                _ => users
-            };
-
-            // Pagination
-            int totalUsers = users.Count();
-            var paginatedUsers = users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            // Pass data ke View
-            ViewBag.TotalPages = (int)Math.Ceiling((double)totalUsers / pageSize);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)_userService.GetUsers().Count() / pageSize);
             ViewBag.CurrentPage = page;
             ViewBag.Search = search;
             ViewBag.SortBy = sortBy;
 
-            return View(paginatedUsers);
+            return View(users);
         }
 
         [HttpPost]
@@ -64,14 +42,14 @@ namespace MvcMovie.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet] // ✅ Perbaikan: Tidak perlu URL khusus di sini
+        [HttpGet] 
         public IActionResult Edit(int id)
         {
             var user = _userService.GetUsers().FirstOrDefault(u => u.Id == id);
             return user == null ? NotFound() : View(user);
         }
 
-        [HttpPost("Edit")] // ✅ Perbaikan: Tambahkan ini untuk membedakan dari metode GET
+        [HttpPost("Edit")] 
         public IActionResult Edit(User updatedUser)
         {
             _userService.UpdateUser(updatedUser);
