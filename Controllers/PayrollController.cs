@@ -40,6 +40,15 @@ namespace MvcMovie.Controllers
             try
             {
                 _logger.LogInformation("User is attempting to save payroll data for ID {Id}.", Id);
+
+                // Check if TapOut is earlier than TapIn
+                if (TapOut < TapIn)
+                {
+                    _logger.LogWarning("TapOut time is earlier than TapIn for payroll ID {Id}.", Id);
+                    TempData["Error"] = "TapOut cannot be earlier than TapIn.";
+                    return Redirect(Request.Headers["Referer"].ToString());
+                }
+
                 _payrollService.SavePayroll(Id, Date, TapIn, TapOut);
                 _logger.LogInformation("Payroll data for ID {Id} has been successfully saved.", Id);
                 TempData["Success"] = "Payroll data saved successfully!";
