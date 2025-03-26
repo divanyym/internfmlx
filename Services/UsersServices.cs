@@ -2,8 +2,19 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Services
 {
-    public class UserService
+    public class UserService : IDisposable
     {
+        private readonly ILogger<UserService> _logger;
+        public UserService(ILogger<UserService> logger)
+        {
+            _logger = logger;
+            _logger.LogInformation("UserService instance created.");
+        }
+
+        public void Dispose()
+        {
+            _logger.LogInformation("UserService instance disposed.");
+        }
         private readonly string filePath = "wwwroot/data.csv";
 
         public IEnumerable<User> GetUsers()

@@ -1,57 +1,82 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MvcMovie.Models;
 using MvcMovie.Services;
 
-namespace MvcMovie.Controllers
+public class UsersController : Controller
 {
-    public class UsersController : Controller
+    private readonly ILogger<UsersController> _logger;
+    private readonly ILogger<UserService> _userServiceLogger;
+
+    public UsersController(ILogger<UsersController> logger, ILogger<UserService> userServiceLogger)
     {
-        private readonly UserService _userService;
+        _logger = logger;
+        _userServiceLogger = userServiceLogger;
+    }
 
-        public UsersController()
+    public IActionResult Index(string search, string sortBy, int page = 1, int pageSize = 10)
+    {
+        _logger.LogInformation("Index method called.");
+        
+        using (var userService = new UserService(_userServiceLogger))
         {
-            _userService = new UserService();
-        }
+            var users = userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
 
-        public IActionResult Index(string search, string sortBy, int page = 1, int pageSize = 10)
-        {
-            var users = _userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
-
-            ViewBag.TotalPages = (int)Math.Ceiling((double)_userService.GetUsers().Count() / pageSize);
+            ViewBag.TotalPages = (int)Math.Ceiling((double)userService.GetUsers().Count() / pageSize);
             ViewBag.CurrentPage = page;
             ViewBag.Search = search;
             ViewBag.SortBy = sortBy;
 
             return View(users);
-        }
+        } // Saat keluar dari `using`, logger akan mencatat bahwa `Dispose()` dipanggil.
+    }
 
-        [HttpPost]
-        public IActionResult SaveUser(User user)
+    [HttpPost]
+    public IActionResult SaveUser(User user)
+    {
+        _logger.LogInformation("SaveUser method called.");
+        
+        using (var userService = new UserService(_userServiceLogger))
         {
-            _userService.SaveUser(user);
+            userService.SaveUser(user);
             return RedirectToAction("Index");
         }
+    }
 
-        [HttpGet]
-        public IActionResult DeleteUser(int id)
+    [HttpGet]
+    public IActionResult DeleteUser(int id)
+    {
+        _logger.LogInformation($"DeleteUser method called for ID: {id}");
+        
+        using (var userService = new UserService(_userServiceLogger))
         {
-            if (!_userService.DeleteUser(id))
+            if (!userService.DeleteUser(id))
                 return NotFound();
 
             return RedirectToAction("Index");
         }
+    }
 
-        [HttpGet] 
-        public IActionResult Edit(int id)
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        _logger.LogInformation($"Edit method called for ID: {id}");
+        
+        using (var userService = new UserService(_userServiceLogger))
         {
-            var user = _userService.GetUsers().FirstOrDefault(u => u.Id == id);
+            var user = userService.GetUsers().FirstOrDefault(u => u.Id == id);
             return user == null ? NotFound() : View(user);
         }
+    }
 
-        [HttpPost("Edit")] 
-        public IActionResult Edit(User updatedUser)
+    [HttpPost("Edit")]
+    public IActionResult Edit(User updatedUser)
+    {
+        _logger.LogInformation($"Edit (POST) method called for ID: {updatedUser.Id}");
+        
+        using (var userService = new UserService(_userServiceLogger))
         {
-            _userService.UpdateUser(updatedUser);
+            userService.UpdateUser(updatedUser);
             TempData["Success"] = "User berhasil diperbarui.";
             return RedirectToAction("Index");
         }
