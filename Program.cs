@@ -1,3 +1,5 @@
+using MvcMovie.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Tambahkan layanan MVC
@@ -6,6 +8,7 @@ builder.Services.AddControllersWithViews();
 
 // Menambahkan konfigurasi dari appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Services.AddScoped<IPayrollService, PayrollService>();
 
 
 var app = builder.Build();

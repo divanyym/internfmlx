@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using MvcMovie.Services;
+using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
@@ -11,18 +13,10 @@ namespace MvcMovie.Controllers
             _payrollService = payrollService;
         }
 
-        public interface IPayrollService
-        {
-            IEnumerable<PayrollDTO> GetPayrollData();
-            IDictionary<string, IEnumerable<PayrollDTO>> GroupPayrollByName(IEnumerable<PayrollDTO> payrolls);
-            (string, string) SavePayroll(PayrollDTO payroll);
-        }
-
-        
         // 📌 Menampilkan data payroll di halaman Index
         public IActionResult Index()
         {
-            var payrolls = _payrollService.GetPayrollData();
+            var payrolls = _payrollService.ReadPayrollData();
             ViewBag.GroupedPayrolls = _payrollService.GroupPayrollByName(payrolls);
             return View(payrolls);
         }
@@ -36,12 +30,19 @@ namespace MvcMovie.Controllers
 
         // 📌 Simpan data payroll ke CSV
         [HttpPost]
-        public IActionResult SavePayroll(PayrollDTO payroll)
+        public IActionResult SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
         {
-            var result = _payrollService.SavePayroll(payroll);
-            TempData[result.Item1] = result.Item2;
+            try
+            {
+                _payrollService.SavePayroll(Id, Date, TapIn, TapOut);
+                TempData["Success"] = "Data payroll berhasil disimpan!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Terjadi kesalahan: {ex.Message}";
+            }
+
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
     }
 }

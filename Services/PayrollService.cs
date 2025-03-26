@@ -2,9 +2,10 @@
 using MvcMovie.Models;
 using System.Globalization;
 
+
 namespace MvcMovie.Services
 {
-    public class PayrollService
+    public class PayrollService : IPayrollService
     {
         private readonly string _userFilePath;
         private readonly string _payrollFilePath;
@@ -86,41 +87,50 @@ namespace MvcMovie.Services
             return payrolls;
         }
 
-        public void SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
+       public (string, string) SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
         {
-            var payrolls = ReadPayrollData().ToList();
-            var user = ReadUserData().FirstOrDefault(u => u.Id == Id);
-            if (user == null) throw new Exception("User tidak ditemukan!");
-
-            double totalHours = (TapOut - TapIn).TotalHours;
-            double totalSalary = totalHours * GetHourlyRate(user.Level ?? "Default");
-
-            payrolls.Add(new PayrollDTO
+            try
             {
-                Id = Id,
-                Name = user.Name,
-                Level = user.Level,
-                Date = Date,
-                TapIn = TapIn,
-                TapOut = TapOut,
-                TotalHours = totalHours,
-                TotalSalary = totalSalary
-            });
+                var payrolls = ReadPayrollData().ToList();
+                var user = ReadUserData().FirstOrDefault(u => u.Id == Id);
+                if (user == null) return ("Error", "User tidak ditemukan!");
 
-            using (var writer = new StreamWriter(_payrollFilePath))
-            {
-                writer.WriteLine("Id,Name,Level,Date,TapIn,TapOut,TotalHours,TotalSalary");
-                foreach (var p in payrolls)
+                double totalHours = (TapOut - TapIn).TotalHours;
+                double totalSalary = totalHours * GetHourlyRate(user.Level ?? "Default");
+
+                payrolls.Add(new PayrollDTO
                 {
-                    writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours.ToString(CultureInfo.InvariantCulture)},{p.TotalSalary.ToString(CultureInfo.InvariantCulture)}");
+                    Id = Id,
+                    Name = user.Name,
+                    Level = user.Level,
+                    Date = Date,
+                    TapIn = TapIn,
+                    TapOut = TapOut,
+                    TotalHours = totalHours,
+                    TotalSalary = totalSalary
+                });
+
+                using (var writer = new StreamWriter(_payrollFilePath))
+                {
+                    writer.WriteLine("Id,Name,Level,Date,TapIn,TapOut,TotalHours,TotalSalary");
+                    foreach (var p in payrolls)
+                    {
+                        writer.WriteLine($"{p.Id},{p.Name},{p.Level},{p.Date:yyyy-MM-dd},{p.TapIn},{p.TapOut},{p.TotalHours.ToString(CultureInfo.InvariantCulture)},{p.TotalSalary.ToString(CultureInfo.InvariantCulture)}");
+                    }
                 }
+
+                return ("Success", "Payroll berhasil disimpan!");
             }
+            catch (Exception ex)
+            {
+                return ("Error", ex.Message);
+
 
             // Menjalankan GC setelah menyimpan payroll
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.SuppressFinalize(this);
-        }
+           // GC.Collect();
+           // GC.WaitForPendingFinalizers();
+            // GC.SuppressFinalize(this);
+        }}
 
         private double GetHourlyRate(string level)
         {
@@ -132,5 +142,15 @@ namespace MvcMovie.Services
                 _ => 40000,
             };
         }
+
+        public IDictionary<string, IEnumerable<PayrollDTO>> GroupPayrollByName(IEnumerable<PayrollDTO> payrolls)
+        {
+            return payrolls
+                .GroupBy(p => p.Name ?? "Unknown") // Mengganti null dengan "Unknown"
+                .ToDictionary(g => g.Key, g => g.AsEnumerable());
+        }
+
+
+
     }
 }

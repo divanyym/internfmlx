@@ -33,13 +33,17 @@
                         : "-")
                 </td>
                 <td>@payroll.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
-                
             </tr>
         }
     </tbody>
 </table>
 
 <h2>Total Salary per User</h2>
+
+@{
+    var groupedPayrolls = ViewBag.GroupedPayrolls as IDictionary<string, IEnumerable<PayrollDTO>>;
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -48,13 +52,21 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.GroupedPayrolls)
+        @if (groupedPayrolls != null)
+        {
+            foreach (var item in groupedPayrolls)
+            {
+                <tr>
+                    <td>@item.Key</td> <!-- Nama User -->
+                    <td>@item.Value.Sum(p => p.TotalSalary).ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@item.Name</td>
-                <td>@item.TotalSalary.ToString("C", new System.Globalization.CultureInfo("id-ID"))</td>
+                <td colspan="2">No payroll data available.</td>
             </tr>
         }
     </tbody>
 </table>
-
