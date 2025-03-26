@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MvcMovie.Models;
 using MvcMovie.Services;
 
@@ -34,7 +33,8 @@ public class UsersController : Controller
     [HttpPost]
     public IActionResult SaveUser(User user)
     {
-        _logger.LogInformation("SaveUser method called.");
+
+        _logger.LogInformation($"Saving user: Name={user.Name}, Email={user.Email}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
@@ -46,13 +46,15 @@ public class UsersController : Controller
     [HttpGet]
     public IActionResult DeleteUser(int id)
     {
-        _logger.LogInformation($"DeleteUser method called for ID: {id}");
+        _logger.LogInformation($"DeleteUser sucsessfor ID: {id}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
             if (!userService.DeleteUser(id))
+            {
+                _logger.LogWarning($"Failed to delete user with ID: {id}");
                 return NotFound();
-
+            }
             return RedirectToAction("Index");
         }
     }
@@ -60,7 +62,7 @@ public class UsersController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        _logger.LogInformation($"Edit method called for ID: {id}");
+        _logger.LogInformation($"Get edit called for ID: {id}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
@@ -72,7 +74,7 @@ public class UsersController : Controller
     [HttpPost("Edit")]
     public IActionResult Edit(User updatedUser)
     {
-        _logger.LogInformation($"Edit (POST) method called for ID: {updatedUser.Id}");
+        _logger.LogInformation($"Edit Sucsess for ID: {updatedUser.Id}");
         
         using (var userService = new UserService(_userServiceLogger))
         {

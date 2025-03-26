@@ -90,22 +90,23 @@ namespace MvcMovie.Services
 
         public bool DeleteUser(int id)
         {
+            _logger.LogInformation($"Attempting to delete user with ID: {id}");
+
             var users = GetUsers();
             var userToDelete = users.FirstOrDefault(u => u.Id == id);
 
             if (userToDelete == null)
+            {
+                _logger.LogWarning($"User with ID: {id} not found.");
                 return false;
+            }
 
             var updatedUsers = users.Where(u => u.Id != id).ToList();
             WriteUsersToFile(updatedUsers);
 
-            #if DEBUG //conditional compilation
-                Console.WriteLine($"[DEBUG] User dengan ID {id} dihapus.");
-            #endif
-
+            _logger.LogInformation($"User with ID: {id} has been successfully deleted.");
             return true;
         }
-
 
         public void UpdateUser(User updatedUser)
         {
