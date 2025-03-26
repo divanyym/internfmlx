@@ -27,26 +27,35 @@ public class UsersController : Controller
             ViewBag.SortBy = sortBy;
 
             return View(users);
-        } // Saat keluar dari `using`, logger akan mencatat bahwa `Dispose()` dipanggil.
+        } // When exiting the 'using', the logger will record that 'Dispose()' was called.
     }
 
     [HttpPost]
     public IActionResult SaveUser(User user)
     {
-
         _logger.LogInformation($"Saving user: Name={user.Name}, Email={user.Email}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
-            userService.SaveUser(user);
-            return RedirectToAction("Index");
+            try
+            {
+                userService.SaveUser(user);
+                _logger.LogInformation($"User {user.Name} with ID {user.Id} saved successfully.");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error saving user: {user.Name}, Email={user.Email}");
+                TempData["Error"] = "There was an error saving the user.";
+                return View();
+            }
         }
     }
 
     [HttpGet]
     public IActionResult DeleteUser(int id)
     {
-        _logger.LogInformation($"DeleteUser sucsessfor ID: {id}");
+        _logger.LogInformation($"DeleteUser called for ID: {id}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
@@ -55,6 +64,8 @@ public class UsersController : Controller
                 _logger.LogWarning($"Failed to delete user with ID: {id}");
                 return NotFound();
             }
+
+            _logger.LogInformation($"User with ID {id} deleted successfully.");
             return RedirectToAction("Index");
         }
     }
@@ -67,20 +78,36 @@ public class UsersController : Controller
         using (var userService = new UserService(_userServiceLogger))
         {
             var user = userService.GetUsers().FirstOrDefault(u => u.Id == id);
-            return user == null ? NotFound() : View(user);
+            if (user == null)
+            {
+                _logger.LogWarning($"User with ID {id} not found for editing.");
+                return NotFound();
+            }
+
+            return View(user);
         }
     }
 
     [HttpPost("Edit")]
     public IActionResult Edit(User updatedUser)
     {
-        _logger.LogInformation($"Edit Sucsess for ID: {updatedUser.Id}");
+        _logger.LogInformation($"Edit success for ID: {updatedUser.Id}");
         
         using (var userService = new UserService(_userServiceLogger))
         {
-            userService.UpdateUser(updatedUser);
-            TempData["Success"] = "User berhasil diperbarui.";
-            return RedirectToAction("Index");
+            try
+            {
+                userService.UpdateUser(updatedUser);
+                _logger.LogInformation($"User {updatedUser.Name} with ID {updatedUser.Id} updated successfully.");
+                TempData["Success"] = "User successfully updated.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error updating user ID: {updatedUser.Id}");
+                TempData["Error"] = "There was an error updating the user.";
+                return View();
+            }
         }
     }
 }
