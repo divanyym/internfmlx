@@ -1,20 +1,30 @@
 using MvcMovie.Services;
-
+using MvcMovie.Observer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Tambahkan layanan MVC
 builder.Services.AddControllersWithViews();
 
-
-// Menambahkan konfigurasi dari appsettings.json
+// Konfigurasi dari appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// Tambahkan service Payroll
 builder.Services.AddScoped<IPayrollService, PayrollService>();
+
+// Tambahkan Subject & Observer untuk Observer Pattern
+builder.Services.AddSingleton<UserSubject>(); // Singleton supaya observer tetap hidup selama aplikasi jalan
+builder.Services.AddScoped<IUserObserver, LoggerObserver>(); // Logger sebagai observer utama
+
+// Tambahkan UserService, injeksikan dependency di constructor
+builder.Services.AddScoped<UserService>();
+
+// Konfigurasi logging
 builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
-    logging.AddConsole(); // Menampilkan log di console
-    logging.AddDebug();   // Menampilkan log di output debug
+    logging.AddConsole();
+    logging.AddDebug();
 });
 
 var app = builder.Build();
@@ -28,15 +38,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthorization();
 
-// Konfigurasi route default
+// Konfigurasi default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
-
-
 
 app.Run();

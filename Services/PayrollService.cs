@@ -1,4 +1,3 @@
-// PayrollService.cs
 using MvcMovie.Models;
 using System.Globalization;
 
@@ -124,12 +123,6 @@ namespace MvcMovie.Services
             catch (Exception ex)
             {
                 return ("Error", ex.Message);
-
-
-            // Menjalankan GC setelah menyimpan payroll
-           // GC.Collect();
-           // GC.WaitForPendingFinalizers();
-            // GC.SuppressFinalize(this);
         }}
 
         private double GetHourlyRate(string level)
@@ -149,6 +142,8 @@ namespace MvcMovie.Services
                 .GroupBy(p => p.Name ?? "Unknown") // Mengganti null dengan "Unknown"
                 .ToDictionary(g => g.Key, g => g.AsEnumerable());
         }
+
+        
 
 
 

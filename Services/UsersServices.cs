@@ -1,13 +1,18 @@
 using MvcMovie.Models;
+using MvcMovie.Observer;
 
 namespace MvcMovie.Services
 {
     public class UserService : IDisposable
     {
         private readonly ILogger<UserService> _logger;
-        public UserService(ILogger<UserService> logger)
+        private readonly UserSubject _subject;
+        private readonly string filePath = "wwwroot/data.csv";
+
+        public UserService(ILogger<UserService> logger, UserSubject subject)
         {
             _logger = logger;
+            _subject = subject;
             _logger.LogInformation("UserService instance created.");
         }
 
@@ -15,7 +20,6 @@ namespace MvcMovie.Services
         {
             _logger.LogInformation("UserService instance disposed.");
         }
-        private readonly string filePath = "wwwroot/data.csv";
 
         public IEnumerable<User> GetUsers()
         {
@@ -24,7 +28,7 @@ namespace MvcMovie.Services
             if (System.IO.File.Exists(filePath))
             {
                 var lines = System.IO.File.ReadAllLines(filePath);
-                foreach (var line in lines.Skip(1)) // Skip header
+                foreach (var line in lines.Skip(1))
                 {
                     var values = line.Split(',');
                     if (values.Length < 7) continue;
@@ -47,17 +51,14 @@ namespace MvcMovie.Services
 
         public IEnumerable<User> GetFilteredUsers(string search, string sortBy, int page, int pageSize)
         {
-            var users = GetUsers().ToList(); // Ambil semua user
+            var users = GetUsers().ToList();
 
-            // Filtering (Search)
             if (!string.IsNullOrEmpty(search))
             {
-                users = users.Where(u => (u.Name ?? "").Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                                        (u.Email ?? "").Contains(search, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
+                users = users.Where(u => (u.Name ?? "").Contains(search, StringComparison.OrdinalIgnoreCase)
+                                      || (u.Email ?? "").Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            // Sorting
             users = sortBy switch
             {
                 "name" => users.OrderBy(u => u.Name).ToList(),
@@ -66,19 +67,16 @@ namespace MvcMovie.Services
                 _ => users
             };
 
-            // Pagination
             return users.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         public void SaveUser(User user)
         {
-            var usersList = GetUsers().ToList(); // Ambil semua data user
-
-            // Cari ID tertinggi, lalu tambahkan 1
+            var usersList = GetUsers().ToList();
             int newId = usersList.Any() ? usersList.Max(u => u.Id) + 1 : 1;
             user.Id = newId;
 
-            string newData = $"{user.Id},{user.Name},{user.Level},{user.Gender},{user.Address},{user.Phone},{user.Email}\n";
+            string newData = $"{user.Id},\"{user.Name}\",\"{user.Level}\",\"{user.Gender}\",\"{user.Address}\",\"{user.Phone}\",\"{user.Email}\"\n";
 
             if (!System.IO.File.Exists(filePath))
             {
@@ -86,40 +84,38 @@ namespace MvcMovie.Services
             }
 
             System.IO.File.AppendAllText(filePath, newData);
+
+            _subject.Notify("Added", user); // Notify observers
         }
 
         public bool DeleteUser(int id)
         {
-            _logger.LogInformation($"Attempting to delete user with ID: {id}");
-
             var users = GetUsers();
             var userToDelete = users.FirstOrDefault(u => u.Id == id);
 
-            if (userToDelete == null)
-            {
-                _logger.LogWarning($"User with ID: {id} not found.");
-                return false;
-            }
+            if (userToDelete == null) return false;
 
             var updatedUsers = users.Where(u => u.Id != id).ToList();
             WriteUsersToFile(updatedUsers);
 
-            _logger.LogInformation($"User with ID: {id} has been successfully deleted.");
+            _subject.Notify("Deleted", userToDelete); // Notify observers
+
             return true;
         }
 
         public void UpdateUser(User updatedUser)
         {
-            var usersList = GetUsers().ToList(); // Konversi ke List agar bisa dimodifikasi
+            var usersList = GetUsers().ToList();
             var userIndex = usersList.FindIndex(u => u.Id == updatedUser.Id);
 
             if (userIndex != -1)
             {
                 usersList[userIndex] = updatedUser;
                 WriteUsersToFile(usersList);
+
+                _subject.Notify("Updated", updatedUser); // Notify observers
             }
         }
-
 
         private void WriteUsersToFile(List<User> users)
         {

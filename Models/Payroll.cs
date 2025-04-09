@@ -6,6 +6,8 @@ public class PayrollDTO
     public DateTime Date { get; set; }
     public TimeSpan TapIn { get; set; }
     public TimeSpan TapOut { get; set; }
+    public string Status { get; set; } = "Pending";
+
 
     public double TotalHours { get; set; }  // Bisa disimpan di database
     public double TotalSalary { get; set; } // Bisa disimpan di database
