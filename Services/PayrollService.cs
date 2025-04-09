@@ -1,6 +1,6 @@
 using MvcMovie.Models;
+using MvcMovie.Strategies;
 using System.Globalization;
-
 
 namespace MvcMovie.Services
 {
@@ -39,7 +39,6 @@ namespace MvcMovie.Services
                 }
             }
 
-            // Menjalankan GC setelah membaca user data
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -79,14 +78,13 @@ namespace MvcMovie.Services
                 }
             }
 
-            // Menjalankan GC setelah membaca payroll data
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
             return payrolls;
         }
 
-       public (string, string) SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
+        public (string, string) SavePayroll(int Id, DateTime Date, TimeSpan TapIn, TimeSpan TapOut)
         {
             try
             {
@@ -95,7 +93,10 @@ namespace MvcMovie.Services
                 if (user == null) return ("Error", "User tidak ditemukan!");
 
                 double totalHours = (TapOut - TapIn).TotalHours;
-                double totalSalary = totalHours * GetHourlyRate(user.Level ?? "Default");
+
+                // Strategy Pattern
+                var strategy = PayrollStrategyFactory.GetStrategy(user.Level);
+                double totalSalary = strategy.CalculateSalary(totalHours);
 
                 payrolls.Add(new PayrollDTO
                 {
@@ -123,29 +124,14 @@ namespace MvcMovie.Services
             catch (Exception ex)
             {
                 return ("Error", ex.Message);
-        }}
-
-        private double GetHourlyRate(string level)
-        {
-            return level.ToLower() switch
-            {
-                "junior" => 50000,
-                "mid" => 75000,
-                "senior" => 100000,
-                _ => 40000,
-            };
+            }
         }
 
         public IDictionary<string, IEnumerable<PayrollDTO>> GroupPayrollByName(IEnumerable<PayrollDTO> payrolls)
         {
             return payrolls
-                .GroupBy(p => p.Name ?? "Unknown") // Mengganti null dengan "Unknown"
+                .GroupBy(p => p.Name ?? "Unknown")
                 .ToDictionary(g => g.Key, g => g.AsEnumerable());
         }
-
-        
-
-
-
     }
 }
