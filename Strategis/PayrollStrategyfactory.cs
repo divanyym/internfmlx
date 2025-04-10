@@ -29,7 +29,7 @@ namespace MvcMovie.Strategies
                 throw new ArgumentException("Level cannot be null or empty.", nameof(level));
             }
 
-            // Gunakan ToLower() untuk perbandingan case-insensitive
+            
             return level.ToLower() switch
             {
                 "junior" => new HourlyPayrollStrategy(),

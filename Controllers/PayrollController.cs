@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcMovie.Services;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace MvcMovie.Controllers
 {

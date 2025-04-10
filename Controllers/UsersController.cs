@@ -3,103 +3,102 @@ using MvcMovie.Models;
 using MvcMovie.Observer;
 using MvcMovie.Services;
 
-public class UsersController : Controller
+namespace MvcMovie.Controllers
 {
-    private readonly ILogger<UsersController> _logger;
-    private readonly ILogger<UserService> _userServiceLogger;
-    private readonly ILogger<LoggerObserver> _observerLogger;
-
-    public UsersController(ILogger<UsersController> logger, ILogger<UserService> userServiceLogger, ILogger<LoggerObserver> observerLogger)
+    public class UsersController : Controller
     {
-        _logger = logger;
-        _userServiceLogger = userServiceLogger;
-        _observerLogger = observerLogger;
-    }
+        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<UserService> _userServiceLogger;
+        private readonly ILogger<LoggerObserver> _observerLogger;
+        private readonly AppDbContext _context;
 
-    public IActionResult Index(string search, string sortBy, int page = 1, int pageSize = 10)
-    {
-        var subject = new UserSubject();
-        subject.Attach(new LoggerObserver(_observerLogger));
-
-        using var userService = new UserService(_userServiceLogger, subject);
-
-        var users = userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
-
-        ViewBag.TotalPages = (int)Math.Ceiling((double)userService.GetUsers().Count() / pageSize);
-        ViewBag.CurrentPage = page;
-        ViewBag.Search = search;
-        ViewBag.SortBy = sortBy;
-
-        return View(users);
-    }
-
-    [HttpPost]
-    public IActionResult SaveUser(User user)
-    {
-        var subject = new UserSubject();
-        subject.Attach(new LoggerObserver(_observerLogger));
-
-        using var userService = new UserService(_userServiceLogger, subject);
-
-        try
+        public UsersController(
+            ILogger<UsersController> logger,
+            ILogger<UserService> userServiceLogger,
+            ILogger<LoggerObserver> observerLogger,
+            AppDbContext context)
         {
+            _logger = logger;
+            _userServiceLogger = userServiceLogger;
+            _observerLogger = observerLogger;
+            _context = context;
+        }
+
+        public IActionResult Index(string search, string sortBy = "name", int page = 1, int pageSize = 5)
+        {
+            var subject = new UserSubject();
+            var observer = new LoggerObserver(_observerLogger);
+            subject.Attach(observer);
+
+            using var userService = new UserService(_userServiceLogger, subject, _context);
+            var users = userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
+            ViewBag.Search = search;
+            ViewBag.SortBy = sortBy;
+            ViewBag.Page = page;
+            ViewBag.PageSize = pageSize;
+            return View(users);
+        }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            var subject = new UserSubject();
+            var observer = new LoggerObserver(_observerLogger);
+            subject.Attach(observer);
+
+            using var userService = new UserService(_userServiceLogger, subject, _context);
             userService.SaveUser(user);
             return RedirectToAction("Index");
         }
-        catch (Exception ex)
+
+        public IActionResult Edit(int id)
         {
-            _logger.LogError(ex, $"Error saving user: {user.Name}");
-            TempData["Error"] = "There was an error saving the user.";
-            return View();
-        }
-    }
+            var user = _context.Users.Find(id);
+            if (user == null)
+                return NotFound();
 
-    [HttpGet]
-    public IActionResult DeleteUser(int id)
-    {
-        var subject = new UserSubject();
-        subject.Attach(new LoggerObserver(_observerLogger));
-
-        using var userService = new UserService(_userServiceLogger, subject);
-
-        if (!userService.DeleteUser(id))
-        {
-            return NotFound();
+            return View(user);
         }
 
-        return RedirectToAction("Index");
-    }
-
-    [HttpGet]
-    public IActionResult Edit(int id)
-    {
-        var subject = new UserSubject();
-        using var userService = new UserService(_userServiceLogger, subject);
-
-        var user = userService.GetUsers().FirstOrDefault(u => u.Id == id);
-        if (user == null) return NotFound();
-
-        return View(user);
-    }
-
-    [HttpPost("Edit")]
-    public IActionResult Edit(User updatedUser)
-    {
-        var subject = new UserSubject();
-        subject.Attach(new LoggerObserver(_observerLogger));
-
-        using var userService = new UserService(_userServiceLogger, subject);
-
-        try
+        [HttpPost]
+        public IActionResult Edit(User user)
         {
-            userService.UpdateUser(updatedUser);
+            if (!ModelState.IsValid)
+            {
+                return View(user);
+            }
+
+            var subject = new UserSubject();
+            var observer = new LoggerObserver(_observerLogger);
+            subject.Attach(observer);
+
+            using var userService = new UserService(_userServiceLogger, subject, _context);
+            userService.UpdateUser(user);
             return RedirectToAction("Index");
         }
-        catch (Exception ex)
+
+        public IActionResult Delete(int id)
         {
-            _logger.LogError(ex, $"Error updating user ID: {updatedUser.Id}");
-            TempData["Error"] = "There was an error updating the user.";
-            return View();
+            var subject = new UserSubject();
+            var observer = new LoggerObserver(_observerLogger);
+            subject.Attach(observer);
+
+            using var userService = new UserService(_userServiceLogger, subject, _context);
+            var success = userService.DeleteUser(id);
+            if (!success)
+                return NotFound();
+
+            return RedirectToAction("Index");
         }
     }
 }

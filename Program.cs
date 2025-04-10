@@ -1,13 +1,17 @@
 using MvcMovie.Services;
 using MvcMovie.Observer;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Tambahkan layanan MVC
-builder.Services.AddControllersWithViews();
-
 // Konfigurasi dari appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Tambahkan layanan MVC
+builder.Services.AddControllersWithViews();
 
 // Tambahkan service Payroll
 builder.Services.AddScoped<IPayrollService, PayrollService>();
