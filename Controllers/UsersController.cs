@@ -24,20 +24,27 @@ namespace MvcMovie.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string search, string sortBy = "name", int page = 1, int pageSize = 5)
+        public IActionResult Index(string search, string sortBy = "name", int page = 1, int pageSize = 10)
         {
-            var subject = new UserSubject();
-            var observer = new LoggerObserver(_observerLogger);
-            subject.Attach(observer);
+            var usersQuery = _context.Users
+                .Where(u => string.IsNullOrEmpty(search) || u.Name.Contains(search))
+                .OrderBy(u => u.Id)  // Sortir berdasarkan ID untuk urutan yang benar
+                .AsQueryable();
 
-            using var userService = new UserService(_userServiceLogger, subject, _context);
-            var users = userService.GetFilteredUsers(search, sortBy, page, pageSize).ToList();
+            int totalUsers = usersQuery.Count();
+            int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize);
+
+            ViewBag.TotalPages = totalPages;  // Total halaman
+            ViewBag.CurrentPage = page;      // Halaman yang sedang aktif
+            ViewBag.PageSize = pageSize;
             ViewBag.Search = search;
             ViewBag.SortBy = sortBy;
-            ViewBag.Page = page;
-            ViewBag.PageSize = pageSize;
+
+            var users = usersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();  // Ambil data sesuai halaman
+
             return View(users);
         }
+
 
         public IActionResult Add()
         {
