@@ -26,7 +26,7 @@ namespace MvcMovie.Services
             .Select(p => new PayrollDTO
             {
                 Id = p.Id,
-                Name = p.User.Name,    // ← ambil dari User
+                Name = p.User!.Name,   // ← ambil dari User
                 Level = p.User.Level,  // ← ambil dari User
                 Date = p.Date,
                 TapIn = p.TapIn,

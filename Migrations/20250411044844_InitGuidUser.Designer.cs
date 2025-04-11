@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MvcMovie.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250411035156_Remove")]
-    partial class Remove
+    [Migration("20250411044844_InitGuidUser")]
+    partial class InitGuidUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,10 +26,8 @@ namespace MvcMovie.Migrations
 
             modelBuilder.Entity("MvcMovie.Models.EmployeeLog", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -52,8 +50,8 @@ namespace MvcMovie.Migrations
                     b.Property<double>("TotalSalary")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -64,10 +62,8 @@ namespace MvcMovie.Migrations
 
             modelBuilder.Entity("MvcMovie.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .HasColumnType("text");

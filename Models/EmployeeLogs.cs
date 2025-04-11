@@ -15,6 +15,8 @@ namespace MvcMovie.Models
         public double TotalSalary { get; set; }
 
         public int UserId { get; set; }  // foreign key
-        public User? User { get; set; }  // relasi navigasi
+        
+        [Required]
+        public User? User { get; set; } // relasi navigasi
         }
 }

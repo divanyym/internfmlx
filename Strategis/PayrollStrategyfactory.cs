@@ -22,21 +22,21 @@ namespace MvcMovie.Strategies
 
     public static class PayrollStrategyFactory
     {
-        public static IPayrollStrategy GetStrategy(string level)
+        public static IPayrollStrategy GetStrategy(string? level)
+    {
+        if (string.IsNullOrWhiteSpace(level))
         {
-            if (string.IsNullOrEmpty(level))
-            {
-                throw new ArgumentException("Level cannot be null or empty.", nameof(level));
-            }
-
-            
-            return level.ToLower() switch
-            {
-                "junior" => new HourlyPayrollStrategy(),
-                "mid" => new HourlyPayrollStrategy(),
-                "senior" => new DailyPayrollStrategy(),
-                _ => new DefaultPayrollStrategy(),
-            };
+            return new DefaultPayrollStrategy();
         }
+
+        return level.ToLower() switch
+        {
+            "junior" => new HourlyPayrollStrategy(),
+            "mid" => new HourlyPayrollStrategy(),
+            "senior" => new DailyPayrollStrategy(),
+            _ => new DefaultPayrollStrategy(),
+        };
+    }
+
     }
 }
