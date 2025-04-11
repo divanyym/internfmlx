@@ -61,6 +61,7 @@ namespace MvcMovie.Services
 
             _context.Users.Remove(user);
             _context.SaveChanges();
+            
             _subject.Notify("Deleted", user);
             return true;
         }

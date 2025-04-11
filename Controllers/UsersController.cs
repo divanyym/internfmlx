@@ -26,23 +26,23 @@ namespace MvcMovie.Controllers
 
         public IActionResult Index(string search, string sortBy = "name", int page = 1, int pageSize = 10)
         {
-            var usersQuery = _context.Users
-                .Where(u => string.IsNullOrEmpty(search) || u.Name.Contains(search))
-                .OrderBy(u => u.Id)  // Sortir berdasarkan ID untuk urutan yang benar
-                .AsQueryable();
+        var usersQuery = _context.Users
+            .Where(u => string.IsNullOrEmpty(search) || u.Name.Contains(search))
+            .OrderBy(u => u.Id)  // Sortir berdasarkan ID untuk urutan yang benar
+            .AsQueryable();
 
-            int totalUsers = usersQuery.Count();
-            int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize);
+        int totalUsers = usersQuery.Count();
+        int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize);
 
-            ViewBag.TotalPages = totalPages;  // Total halaman
-            ViewBag.CurrentPage = page;      // Halaman yang sedang aktif
-            ViewBag.PageSize = pageSize;
-            ViewBag.Search = search;
-            ViewBag.SortBy = sortBy;
+        ViewBag.TotalPages = totalPages;  // Total halaman
+        ViewBag.CurrentPage = page;      // Halaman yang sedang aktif
+        ViewBag.PageSize = pageSize;
+        ViewBag.Search = search;
+        ViewBag.SortBy = sortBy;
 
-            var users = usersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();  // Ambil data sesuai halaman
+        var users = usersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();  // Ambil data sesuai halaman
 
-            return View(users);
+        return View(users);
         }
 
 
@@ -109,3 +109,4 @@ namespace MvcMovie.Controllers
         }
     }
 }
+

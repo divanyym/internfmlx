@@ -7,7 +7,6 @@ namespace MvcMovie.Models
     {
         [Key]
         public int Id { get; set; }
-
         public string? Name { get; set; }
         public string? Level { get; set; }
         public DateTime Date { get; set; }
@@ -15,5 +14,6 @@ namespace MvcMovie.Models
         public DateTime TapOut { get; set; }
         public double TotalHours { get; set; }
         public double TotalSalary { get; set; }
-    }
+
+        }
 }

@@ -50,15 +50,12 @@ namespace MvcMovie.Services
             var newPayroll = new EmployeeLog
             {
                 Id = user.Id,
-                Name = user.Name,
-                Level = user.Level,
                 Date = date,
-                TapIn = date.Date + tapIn,
-                TapOut = date.Date + tapOut,
+                TapIn = date.Date +tapIn,
+                TapOut = date.Date +tapOut,
                 TotalHours = totalHours,
                 TotalSalary = totalSalary
             };
-
 
             _context.EmployeeLogs.Add(newPayroll);
             _context.SaveChanges();
