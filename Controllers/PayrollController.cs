@@ -39,7 +39,6 @@ namespace MvcMovie.Controllers
             {
                 _logger.LogInformation("User is attempting to save payroll data for ID {Id}.", Id);
 
-                // Check if TapOut is earlier than TapIn
                 if (TapOut < TapIn)
                 {
                     _logger.LogWarning("TapOut time is earlier than TapIn for payroll ID {Id}.", Id);
@@ -48,13 +47,19 @@ namespace MvcMovie.Controllers
                 }
 
                 _payrollService.SavePayroll(Id, Date, TapIn, TapOut);
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                // Log ke console backend dengan timestamp
                 _logger.LogInformation("Payroll data for ID {Id} has been successfully saved.", Id);
+
+                // Notifikasi ke frontend via TempData
                 TempData["Success"] = "Payroll data saved successfully!";
+
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while saving payroll data for ID {Id}.", Id);
-                TempData["Error"] = $"An error occurred: {ex.Message}";
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occurred while saving payroll data for ID {Id}.", Id);
+                    TempData["Error"] = $"An error occurred: {ex.Message}";
             }
 
             return Redirect(Request.Headers["Referer"].ToString());

@@ -9,10 +9,6 @@
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\data.csv",
-      "PackagePath": "staticwebassets\\data.csv"
-    },
-    {
       "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -259,10 +255,6 @@
     {
       "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
-    },
-    {
-      "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\payroll.csv",
-      "PackagePath": "staticwebassets\\payroll.csv"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MvcMovie.Microsoft.AspNetCore.StaticWebAssets.props",

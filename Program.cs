@@ -29,8 +29,14 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
-    logging.AddConsole();
-    logging.AddDebug();
+    logging.AddSimpleConsole(options =>
+    {
+        options.TimestampFormat = "[yyyy-MM-dd HH:mm:ss] "; // Format waktu yang kamu mau
+        options.IncludeScopes = false;
+        options.SingleLine = true;
+    });
+
+    logging.AddDebug(); // Tambahan jika kamu juga ingin debug logger
 });
 
 var app = builder.Build();

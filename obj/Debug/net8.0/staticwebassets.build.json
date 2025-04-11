@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "thF2GPcGzqpFcydxRqUfy31pqwnFe5tVnnzCdIsw8Qc=",
+  "Hash": "1iwMvyoBYFvxs7Ou6QMPBXVrb8Dh2GGL8ERmC+eMQhI=",
   "Source": "MvcMovie",
   "BasePath": "_content/MvcMovie",
   "Mode": "Default",
@@ -72,25 +72,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
-    },
-    {
-      "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\data.csv",
-      "SourceId": "MvcMovie",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\",
-      "BasePath": "_content/MvcMovie",
-      "RelativePath": "data.csv",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\data.csv"
     },
     {
       "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\favicon.ico",
@@ -1269,25 +1250,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
-    },
-    {
-      "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\payroll.csv",
-      "SourceId": "MvcMovie",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\",
-      "BasePath": "_content/MvcMovie",
-      "RelativePath": "payroll.csv",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\payroll.csv"
     }
   ]
 }

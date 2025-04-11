@@ -7,7 +7,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>UserID</th>
             <th>Name</th>
             <th>Level</th>
             <th>Date</th>
@@ -21,7 +21,7 @@
         @foreach (var payroll in Model ?? new List<PayrollDTO>())
         {
             <tr>
-                <td>@payroll.Id</td>
+                <td>@payroll.UserId</td>
                 <td>@payroll.Name</td>
                 <td>@payroll.Level</td>
                 <td>@payroll.Date.ToString("yyyy-MM-dd")</td>

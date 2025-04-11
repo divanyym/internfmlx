@@ -6,7 +6,7 @@ public class PayrollDTO
     public DateTime Date { get; set; }
     public DateTime TapIn { get; set; }
     public DateTime TapOut { get; set; }
-
+    public int UserId { get; set; } 
 
     public double TotalHours { get; set; }  // Bisa disimpan di database
     public double TotalSalary { get; set; } // Bisa disimpan di database

@@ -32,7 +32,8 @@ namespace MvcMovie.Services
                 TapIn = p.TapIn,
                 TapOut = p.TapOut,
                 TotalHours = p.TotalHours,
-                TotalSalary = p.TotalSalary
+                TotalSalary = p.TotalSalary,
+                UserId = p.UserId
             })
             .ToList();
 
@@ -67,8 +68,6 @@ namespace MvcMovie.Services
             
             _context.EmployeeLogs.Add(newPayroll);
             _context.SaveChanges();
-            Console.WriteLine("Data berhasil ditambahkan ke database");
-
 
             return ("Success", "Payroll berhasil disimpan!");
         }
