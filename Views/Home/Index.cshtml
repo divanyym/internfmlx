@@ -10,4 +10,108 @@
     </div>
 </section>
 
+<section class="calendar-section">
+    <h2>📅 Kalender Cuti</h2>
+    <div id="calendar"></div>
+</section>
+
 <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+<style>
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem;
+        flex-wrap: wrap;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .text-container {
+        max-width: 500px;
+    }
+
+    .text-container h1 {
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .text-container p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .btn-explore {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.7rem 1.5rem;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-explore:hover {
+        background-color: #0056b3;
+    }
+
+    .image-container img {
+        max-width: 400px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .calendar-section {
+        margin: 2rem auto;
+        max-width: 600px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .calendar-section h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    #calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        text-align: center;
+    }
+
+    #calendar div {
+        padding: 10px;
+        border-radius: 6px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+
+    #calendar .leave-day {
+        background-color: #ffcccc;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    const calendar = document.getElementById("calendar");
+    const daysInMonth = 30; // April dummy data
+    const leaveDays = [5, 10, 14, 21]; // contoh tanggal cuti
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement("div");
+        cell.textContent = day;
+        if (leaveDays.includes(day)) {
+            cell.classList.add("leave-day");
+            cell.title = "Cuti";
+        }
+        calendar.appendChild(cell);
+    }
+</script>
