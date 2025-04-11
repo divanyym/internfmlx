@@ -56,6 +56,8 @@ namespace MvcMovie.Services
             var newPayroll = new EmployeeLog
             {
                 UserId = user.Id,
+                Name = user.Name,          
+                Level = user.Level,
                 Date = dateUnspec,
                 TapIn = tapInDateTime,
                 TapOut = tapOutDateTime,
