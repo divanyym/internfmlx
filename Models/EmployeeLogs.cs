@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcMovie.Models
@@ -15,5 +14,7 @@ namespace MvcMovie.Models
         public double TotalHours { get; set; }
         public double TotalSalary { get; set; }
 
+        public int UserId { get; set; }  // foreign key
+        public User? User { get; set; }  // relasi navigasi
         }
 }

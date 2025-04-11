@@ -1,5 +1,6 @@
 using MvcMovie.Models;
 using MvcMovie.Strategies;
+using Microsoft.EntityFrameworkCore;
 
 namespace MvcMovie.Services
 {
@@ -21,11 +22,12 @@ namespace MvcMovie.Services
         public IEnumerable<PayrollDTO> ReadPayrollData()
         {
            var payrolls = _context.EmployeeLogs
+           .Include(p => p.User) // ← penting: join ke tabel Users
             .Select(p => new PayrollDTO
             {
                 Id = p.Id,
-                Name = p.Name,
-                Level = p.Level,
+                Name = p.User.Name,    // ← ambil dari User
+                Level = p.User.Level,  // ← ambil dari User
                 Date = p.Date,
                 TapIn = p.TapIn,
                 TapOut = p.TapOut,
@@ -39,9 +41,13 @@ namespace MvcMovie.Services
 
         public (string, string) SavePayroll(int userId, DateTime date, TimeSpan tapIn, TimeSpan tapOut)
         {
-            var user = _context.EmployeeLogs.FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
                 return ("Error", "User tidak ditemukan!");
+
+            var dateUnspec = DateTime.SpecifyKind(date, DateTimeKind.Unspecified);
+            var tapInDateTime = DateTime.SpecifyKind(dateUnspec.Date + tapIn, DateTimeKind.Unspecified);
+            var tapOutDateTime = DateTime.SpecifyKind(dateUnspec.Date + tapOut, DateTimeKind.Unspecified);
 
             double totalHours = (tapOut - tapIn).TotalHours;
             var strategy = PayrollStrategyFactory.GetStrategy(user.Level);
@@ -49,14 +55,14 @@ namespace MvcMovie.Services
 
             var newPayroll = new EmployeeLog
             {
-                Id = user.Id,
-                Date = date,
-                TapIn = date.Date +tapIn,
-                TapOut = date.Date +tapOut,
+                UserId = user.Id,
+                Date = dateUnspec,
+                TapIn = tapInDateTime,
+                TapOut = tapOutDateTime,
                 TotalHours = totalHours,
                 TotalSalary = totalSalary
             };
-
+            
             _context.EmployeeLogs.Add(newPayroll);
             _context.SaveChanges();
             Console.WriteLine("Data berhasil ditambahkan ke database");

@@ -17,6 +17,8 @@ namespace MvcMovie.Models //services
 
         public string? Email { get; set; }
 
+        public ICollection<EmployeeLog>? EmployeeLogs { get; set; }
+
         
     }
 
