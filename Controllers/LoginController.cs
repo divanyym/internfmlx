@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity; // Untuk PasswordHasher
-using MvcMovie.Models;
+
 
 public class AccountController : Controller
 {
