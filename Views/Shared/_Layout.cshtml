@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MvcMovie.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="@ViewData["BodyClass"]">
+
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container text-center">
@@ -28,16 +29,17 @@
                         <li class="nav-item">
                             <a class="nav-link nav-custom" asp-area="" asp-controller="Payroll" asp-action="Index">Payroll</a>
                         </li>
+
                         @if (ViewData["User"] != null)
-                {
-                    var user = (ViewData["User"] as User) ?? new User();
-                    <li>
-                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-                    </li>
-                }
+                        {
+                            var user = (ViewData["User"] as User) ?? new User();
+                            <li class="nav-item">
+                                <a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                            </li>
+                        }
 
                     </ul>
                 </div>

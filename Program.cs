@@ -19,10 +19,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();  // Menyimpan session di memori
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = ".MyApp.Session"; // Menentukan nama cookie
+    options.Cookie.Name = ".MyApp.Session"; 
     options.IdleTimeout = TimeSpan.FromMinutes(30);  // Durasi session
     options.Cookie.HttpOnly = true;  // Hanya bisa diakses oleh server
-    options.Cookie.IsEssential = true;  // Memastikan cookie esensial
+    options.Cookie.IsEssential = true; 
 });
 
 builder.Services.AddScoped<IPayrollService, PayrollService>();
