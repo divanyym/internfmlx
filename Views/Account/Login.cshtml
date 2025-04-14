@@ -1,21 +1,13 @@
-@model Login
 @{
     Layout = "~/Views/Shared/_LayoutAuth.cshtml";
+    ViewBag.Title = "Login";
 }
-<h2>Login</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div>
-        @Html.LabelFor(m => m.Username)
-        @Html.TextBoxFor(m => m.Username)
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password)
-    </div>
-
-    <button type="submit">Login</button>
-}
+<div class="login-box">
+    <h2 class="login-title">Welcome Back 👋</h2>
+    <form method="post" action="/Account/Login" class="login-form">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
+</div>

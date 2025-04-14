@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\MvcMovie.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\css\\login.cs",
+      "PackagePath": "staticwebassets\\css\\login.cs"
+    },
+    {
       "Id": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
