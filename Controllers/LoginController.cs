@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity; // Untuk PasswordHasher
-
 
 public class AccountController : Controller
 {
     private readonly AppDbContext _context;
-    private readonly PasswordHasher<Login> _passwordHasher;
 
     public AccountController(AppDbContext context)
     {
         _context = context;
-        _passwordHasher = new PasswordHasher<Login>();
     }
 
     // GET: Account/Login
@@ -26,35 +22,29 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Cari data login berdasarkan username di tabel Login
-            var login = _context.Logins.SingleOrDefault(l => l.Username == model.Username);
+            // Cari data login berdasarkan username
+            var user = _context.Logins.SingleOrDefault(l => l.Username == model.Username);
 
-            if (login != null)
+            if (user != null)
             {
-                // Verifikasi password yang dimasukkan dengan password yang ada di tabel Login (hashed password)
-                var result = _passwordHasher.VerifyHashedPassword(login, login.Password, model.Password);
-
-                if (result == PasswordVerificationResult.Success)
+                // Verifikasi password plaintext
+                if (user.Password == model.Password)
                 {
-                    // Jika password cocok, simpan sesi atau cookie untuk login
-                    HttpContext.Session.SetInt32("AdminId", login.Id);
-
-                    // Redirect ke halaman home setelah login berhasil
-                    return RedirectToAction("Index", "Home");
+                    // Jika password cocok, simpan session dan redirect ke halaman utama
+                    HttpContext.Session.SetInt32("UserId", user.Id);
+                    return RedirectToAction("Index", "Home");  // Redirect ke halaman home
                 }
                 else
                 {
-                    // Jika password salah
-                    ModelState.AddModelError("", "Password salah.");
+                    ModelState.AddModelError("", "Invalid password.");
                 }
             }
             else
             {
-                // Jika username tidak ditemukan
-                ModelState.AddModelError("", "Username tidak ditemukan.");
+                ModelState.AddModelError("", "Username not found.");
             }
         }
 
-        return View(model); // Jika login gagal, kembali ke form login
+        return View(model);
     }
 }
