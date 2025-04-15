@@ -32,7 +32,7 @@ public class AccountController : Controller
                 {
                     // Jika password cocok, simpan session dan redirect ke halaman utama
                     HttpContext.Session.SetInt32("UserId", user.Id);
-                    return RedirectToAction("Index", "Home");  // Redirect ke halaman home
+                    return RedirectToAction("Index", "Home");  
                 }
                 else
                 {

@@ -1,12 +1,13 @@
-/*login*/
+/* login */
 body.login-bg {
-    background: linear-gradient(to right, #f9f5ff, #e0c3fc);
+    background:#ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
   }
   
   .login-container {
@@ -16,53 +17,71 @@ body.login-bg {
   }
   
   .login-box {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   
   .login-title {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #4a148c;
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #000000;
+    font-weight: 600;
   }
   
   .login-form input {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    outline: none;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.7);
     font-size: 16px;
+    transition: 0.3s ease;
+  }
+  
+  .login-form input:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px #d1c4e9;
   }
   
   .login-form button {
     width: 100%;
-    padding: 12px;
-    background-color: #7b1fa2;
+    padding: 14px;
+    background-color: #032b76;
     border: none;
-    color: white;
-    border-radius: 10px;
+    color: rgb(177, 184, 255);
+    border-radius: 12px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s ease;
+    margin-top: 15px;
+    transition: background 0.3s ease, transform 0.2s ease;
   }
   
   .login-form button:hover {
-    background-color: #6a1b9a;
+    background-color: #2b93de;
+    transform: scale(1.02);
   }
   
   .register-text {
-    margin-top: 15px;
+    margin-top: 18px;
     font-size: 14px;
-  }
-  .register-text a {
-    color: #7b1fa2;
-    text-decoration: none;
+    color: #333;
   }
   
+  .register-text a {
+    color: #266cb6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .register-text a:hover {
+    text-decoration: underline;
+  }
   
