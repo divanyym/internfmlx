@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "pCqdjfw1UsLXZv8Mu+Ja9oUl3KkHeqv7qtRm/9YoIxw=",
+  "Hash": "0H4ZW8KPvDApGaHJL8NULXQ2QsqDdVvVhGybAwPzUPI=",
   "Source": "MvcMovie",
   "BasePath": "_content/MvcMovie",
   "Mode": "Default",
@@ -55,12 +55,12 @@
       "OriginalItemSpec": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MvcMovie.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\css\\login.cs",
+      "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\css\\login.css",
       "SourceId": "MvcMovie",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\",
       "BasePath": "_content/MvcMovie",
-      "RelativePath": "css/login.cs",
+      "RelativePath": "css/login.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,7 +71,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\login.cs"
+      "OriginalItemSpec": "wwwroot\\css\\login.css"
     },
     {
       "Identity": "C:\\Users\\SE-69\\Desktop\\Webapps\\internfmlx\\wwwroot\\css\\site.css",
