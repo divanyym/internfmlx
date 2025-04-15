@@ -29,7 +29,7 @@ body.login-bg {
   .login-title {
     margin-bottom: 25px;
     font-size: 26px;
-    color: #000000;
+    color: #4a148c;
     font-weight: 600;
   }
   
@@ -47,15 +47,15 @@ body.login-bg {
   .login-form input:focus {
     outline: none;
     background: #fff;
-    box-shadow: 0 0 0 2px #d1c4e9;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); 
   }
   
   .login-form button {
     width: 100%;
     padding: 14px;
-    background-color: #032b76;
+    background-color: #7b1fa2;
     border: none;
-    color: rgb(177, 184, 255);
+    color: white;
     border-radius: 12px;
     font-size: 16px;
     font-weight: 500;
@@ -65,7 +65,7 @@ body.login-bg {
   }
   
   .login-form button:hover {
-    background-color: #2b93de;
+    background-color: #6a1b9a;
     transform: scale(1.02);
   }
   
@@ -76,7 +76,7 @@ body.login-bg {
   }
   
   .register-text a {
-    color: #266cb6;
+    color: #7b1fa2;
     text-decoration: none;
     font-weight: 500;
   }
